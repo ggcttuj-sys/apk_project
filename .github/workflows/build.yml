@@ -23,24 +23,10 @@ jobs:
         pip install --upgrade pip
         pip install buildozer cython==0.29.37 pexpect
 
-    - name: Set up Android SDK and Tools
-      run: |
-        mkdir -p $HOME/android-sdk/cmdline-tools
-        wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
-        unzip cmdline-tools.zip -d temp_tools
-        mv temp_tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
-        rm -rf cmdline-tools.zip temp_tools
-
-        export ANDROID_HOME=$HOME/android-sdk
-        export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
-
-        yes | sdkmanager --licenses || true
-        sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-30" "build-tools;30.0.3"
-
     - name: Build with Buildozer
+      env:
+        BUILDER_ACCEPT_LICENSES: "1"
       run: |
-        export ANDROID_HOME=$HOME/android-sdk
-        export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
         buildozer -v android debug
 
     - name: Upload APK
