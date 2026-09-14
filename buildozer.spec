@@ -499,3 +499,4 @@ android.ndk = 25c
 android.ndk_api = 21
 android.api_level = 31
 android.min_api = 21
+android.build_tools_version = 30.0.3
