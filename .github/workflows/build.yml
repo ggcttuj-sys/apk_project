@@ -31,7 +31,9 @@ jobs:
 
     - name: Install Android SDK Build-Tools 30.0.3
       run: |
-        echo "y" | sdkmanager "build-tools;30.0.3"
+        export ANDROID_HOME=$HOME/android-sdk
+        export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
+        echo "y" | sdkmanager --sdk_root=${ANDROID_HOME} "build-tools;30.0.3"
 
     - name: Build with Buildozer
       run: |
