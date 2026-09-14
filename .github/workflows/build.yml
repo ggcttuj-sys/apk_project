@@ -31,11 +31,11 @@ jobs:
 
     - name: Build with Buildozer
       run: |
-        cd cyber_app
         buildozer -v android debug
 
-    - name: Upload APK
+        - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: package
-        path: cyber_app/bin/*.apk
+        path: bin/*.apk
+
