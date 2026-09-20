@@ -31,6 +31,7 @@
             overflow: hidden;
             border-bottom-left-radius: 18px;
             border-bottom-right-radius: 18px;
+            background-color: #000;
         }
 
         /* الفيديو الشغال بالخلفية */
@@ -188,17 +189,20 @@
 </head>
 <body>
 
+    <!-- قسم فيديو الخلفية المظلمة -->
     <div class="hero-section">
         <div class="live-tag">
             <span class="live-dot"></span> LIVE
         </div>
         
-        <video autoplay loop muted playsinline>
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-rain-falling-on-a-city-street-at-night-42868-large.mp4" type="video/mp4">
+        <video autoplay loop muted playsinline webkit-playsinline preload="auto">
+            <source src="https://v1.coverr.co/webm/5162235_Rain_Window_1280x720.webm" type="video/webm">
+            <source src="https://cdn.pixabay.com/video/2019/04/20/22908-331697223_large.mp4" type="video/mp4">
         </video>
         <div class="overlay"></div>
     </div>
 
+    <!-- المحتوى والروابط الخاصة بك -->
     <div class="content">
         <div class="title-box">آياز</div>
         <br>
@@ -212,6 +216,7 @@
         </p>
 
         <div class="btn-container">
+            <!-- حساب التلغرام الشخصي -->
             <a href="https://t.me/E44_l" class="btn-card" target="_blank">
                 <span class="btn-icon">↗</span>
                 <div class="btn-info">
@@ -220,6 +225,7 @@
                 </div>
             </a>
 
+            <!-- قناة التلغرام المباشرة -->
             <a href="https://t.me/D44_l" class="btn-card" target="_blank">
                 <span class="btn-icon">↗</span>
                 <div class="btn-info">
@@ -228,6 +234,7 @@
                 </div>
             </a>
 
+            <!-- حساب الإنستغرام المباشر -->
             <a href="https://instagram.com/b9__5" class="btn-card" target="_blank">
                 <span class="btn-icon">↗</span>
                 <div class="btn-info">
@@ -237,6 +244,7 @@
             </a>
         </div>
 
+        <!-- عبارة الأسفل -->
         <div class="footer-text">آياز 2026</div>
     </div>
 
