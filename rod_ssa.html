@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -119,6 +119,11 @@
             box-shadow: 0 0 10px var(--red-glow);
         }
 
+        .ctrl-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         /* --- قسم الفيديو العلوي (Hero Section) --- */
         .hero {
             position: relative;
@@ -145,7 +150,6 @@
             filter: brightness(0.35) contrast(1.3) hue-rotate(320deg);
         }
 
-        /* كانفاس الماتريكس فوق الفيديو */
         #matrix-canvas {
             position: absolute;
             top: 0;
@@ -445,22 +449,12 @@
             font-size: 14px;
         }
 
-        html[dir="ltr"] .card-list li {
-            padding-right: 0;
-            padding-left: 25px;
-        }
-
         .card-list li::before {
             content: '➢';
             position: absolute;
             right: 0;
             color: var(--card-accent);
             font-weight: bold;
-        }
-
-        html[dir="ltr"] .card-list li::before {
-            right: auto;
-            left: 0;
         }
 
         /* --- محاكي التيرمينال الحقيقي --- */
@@ -545,24 +539,10 @@
             overflow: hidden;
         }
 
-        .attack-line {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--red-glow), transparent);
-            transform-origin: left center;
-            animation: attackPulse 2s infinite;
-        }
-
-        @keyframes attackPulse {
-            0% { opacity: 0; transform: scaleX(0); }
-            50% { opacity: 1; transform: scaleX(1); }
-            100% { opacity: 0; transform: scaleX(1); }
-        }
-
         .map-log {
             position: absolute;
             bottom: 10px;
-            left: 10px;
+            right: 10px;
             background: rgba(0, 0, 0, 0.85);
             padding: 10px 15px;
             border-radius: 6px;
@@ -570,6 +550,10 @@
             color: var(--cyan-glow);
             font-family: monospace;
             border: 1px solid var(--border-color);
+            max-width: 90%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* --- مركز أدوات التشفير --- */
@@ -667,17 +651,36 @@
             box-shadow: 0 0 20px var(--green-glow);
         }
 
+        .progress-bar-container {
+            width: 100%;
+            background: #000;
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            overflow: hidden;
+            display: none;
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--green-glow);
+            box-shadow: 0 0 10px var(--green-glow);
+            transition: width 0.2s ease;
+        }
+
         .scan-terminal {
             background: #000;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 15px;
-            margin-top: 20px;
+            margin-top: 15px;
             font-family: monospace;
             font-size: 13px;
             color: var(--green-glow);
             min-height: 120px;
-            max-height: 200px;
+            max-height: 220px;
             overflow-y: auto;
             display: none;
         }
@@ -705,7 +708,7 @@
             color: #fff;
             padding: 12px 20px;
             border-radius: 8px;
-            text-align: inherit;
+            text-align: right;
             cursor: pointer;
             transition: 0.3s;
             font-size: 15px;
@@ -836,11 +839,11 @@
     <!-- شريط الأدوات العلوي العالمي -->
     <div class="utility-nav">
         <div class="brand-logo">
-            <i class="fa-solid fa-terminal" style="color: var(--red-glow);"></i> ABBAS <span id="brand-tag">CYBER HQ</span>
+            <i class="fa-solid fa-terminal" style="color: var(--red-glow);"></i> ABBAS <span id="brand-tag">مركزي السيبراني</span>
         </div>
         <div class="nav-controls">
             <button class="ctrl-btn" onclick="cycleTheme()"><i class="fa-solid fa-palette"></i> <span id="themeLabel">Red Team</span></button>
-            <button class="ctrl-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span id="langLabel">English</span></button>
+            <button class="ctrl-btn disabled" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span id="langLabel">العربية</span></button>
         </div>
     </div>
 
@@ -859,8 +862,8 @@
         <div class="hero-overlay"></div>
 
         <div class="hero-content">
-            <div class="owner-badge"><i class="fa-solid fa-crown"></i> <span id="txt-owner">المالك: عباس | ABBAS</span></div>
-            <h1 class="platform-title" id="txt-title">منصة عباس للأمن السيبراني</h1>
+            <div class="owner-badge"><i class="fa-solid fa-crown"></i> <span>المالك: عباس | ABBAS</span></div>
+            <h1 class="platform-title">منصة عباس للأمن السيبراني</h1>
             
             <div class="terminal-text">
                 > root@abbas-cyber:~# <span id="typing-text">جاري تشغيل بروتوكول الردع...</span>
@@ -869,11 +872,11 @@
             <br>
             <div class="hero-action-btns">
                 <a href="#main-sections" class="start-btn" onclick="playBeep()">
-                    <span id="txt-btn-start">أهلاً بعالمك.. اضغط ابدأ</span>
+                    <span>أهلاً بعالمك.. اضغط ابدأ</span>
                     <i class="fa-solid fa-terminal"></i>
                 </a>
                 <a href="https://t.me/D44_l" target="_blank" class="channel-btn" onclick="playBeep()">
-                    <span id="txt-btn-channel">الانضمام للقناة الرسمية</span>
+                    <span>الانضمام للقناة الرسمية</span>
                     <i class="fa-solid fa-paper-plane"></i>
                 </a>
             </div>
@@ -890,8 +893,8 @@
     <div class="container" id="main-sections">
         
         <div class="section-header">
-            <h2 id="txt-sec-title">الأقسام التخصصية للمنصة</h2>
-            <p id="txt-sec-desc">منظومة كاملة تغطي كافة مجالات الردع الرقمي والاختبارات التكتيكية</p>
+            <h2>الأقسام التخصصية للمنصة</h2>
+            <p>منظومة كاملة تغطي كافة مجالات الردع الرقمي والاختبارات التكتيكية</p>
         </div>
 
         <div class="sections-grid">
@@ -904,17 +907,17 @@
                             <i class="fa-solid fa-shield-halved"></i>
                         </div>
                         <div>
-                            <h3 id="card1-title">الحماية والدفاع الرقمي</h3>
+                            <h3>الحماية والدفاع الرقمي</h3>
                             <span style="color: var(--cyan-glow); font-size: 12px; font-weight: bold;">BLUE TEAMING</span>
                         </div>
                     </div>
                     <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=150&auto=format&fit=crop&q=80" class="card-img-preview" alt="الحماية">
                 </div>
                 <div class="card-body">
-                    <p id="card1-desc">
+                    <p>
                         تركز حماية المنظومات السيبرانية على إنشاء أسوار رقمية غير قابلة للاختراق، وتتبع الهجمات النشطة واستجابة الحوادث فور حدوثها لمنع تسريب البيانات الحساسة أو تشفيرها بوساطة برمجيات الفدية.
                     </p>
-                    <ul class="card-list" id="card1-list">
+                    <ul class="card-list">
                         <li><strong>أنظمة SOC & SIEM:</strong> مراقبة سجلات النظام والشبكة على مدار 24/7 للتحليل الفوري.</li>
                         <li><strong>جدران الحماية (NGFW):</strong> تصفية الحزم الخبيثة والتصدي لهجمات حجب الخدمة (DDoS).</li>
                         <li><strong>التشفير المتقدم (AES-256):</strong> تأمين البيانات أثناء التنقل والسكون ببروتوكولات عالية التعقيد.</li>
@@ -930,17 +933,17 @@
                             <i class="fa-solid fa-user-ninja"></i>
                         </div>
                         <div>
-                            <h3 id="card2-title">الهجوم واختبار الاختراق</h3>
+                            <h3>الهجوم واختبار الاختراق</h3>
                             <span style="color: var(--red-glow); font-size: 12px; font-weight: bold;">RED TEAMING</span>
                         </div>
                     </div>
                     <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=150&auto=format&fit=crop&q=80" class="card-img-preview" alt="الهجوم">
                 </div>
                 <div class="card-body">
-                    <p id="card2-desc">
+                    <p>
                         محاكاة هجمات الواقع وتفحص البنية التحتية بنفس أساليب المهاجمين المحترفين لتحديد الثغرات الأمنية (Zero-Days) وإغلاقها قبل أن يستغلها الخصوم السيبرانيون.
                     </p>
-                    <ul class="card-list" id="card2-list">
+                    <ul class="card-list">
                         <li><strong>اختبار تطبيقات الويب:</strong> كشف ثغرات SQLi, XSS, CSRF, RCE وتخطيات الصلاحيات.</li>
                         <li><strong>هندسة عكسية (Reverse Engineering):</strong> تفكيك البرمجيات الخبيثة وفهم آلية عملها.</li>
                         <li><strong>اختراق الشبكات اللاسلكية:</strong> تقييم ثغرات WPA3 واختبار أمان نقاط الوصول الشبكية.</li>
@@ -956,17 +959,17 @@
                             <i class="fa-solid fa-eye"></i>
                         </div>
                         <div>
-                            <h3 id="card3-title">الاستخبارات والتعقب الرقمي</h3>
+                            <h3>الاستخبارات والتعقب الرقمي</h3>
                             <span style="color: var(--purple-glow); font-size: 12px; font-weight: bold;">OSINT & THREAT INTEL</span>
                         </div>
                     </div>
                     <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=150&auto=format&fit=crop&q=80" class="card-img-preview" alt="الاستخبارات">
                 </div>
                 <div class="card-body">
-                    <p id="card3-desc">
+                    <p>
                         جمع البيانات وتتبع الأثر الرقمي من المصادر المفتوحة والدارك ويب (Dark Web) للتنبؤ بالهجمات المستقبلية وتحليل العنصر البشري الذي يُعد أضعف حلقة في الأمان.
                     </p>
-                    <ul class="card-list" id="card3-list">
+                    <ul class="card-list">
                         <li><strong>جمع المعلومات (OSINT):</strong> كشف النطاقات الفرعية والأصول الرقمية المكشوفة.</li>
                         <li><strong>التصيد الاحتيالي (Phishing):</strong> تقييم وعي الموظفين وحمايتهم من الهندسة الاجتماعية.</li>
                         <li><strong>مراقبة تسريبات الدارك ويب:</strong> تتبع الحسابات والبيانات المخترقة المسربة فوراً.</li>
@@ -982,17 +985,17 @@
                             <i class="fa-solid fa-microchip"></i>
                         </div>
                         <div>
-                            <h3 id="card4-title">الأدوات والأنظمة التكتيكية</h3>
+                            <h3>الأدوات والأنظمة التكتيكية</h3>
                             <span style="color: var(--green-glow); font-size: 12px; font-weight: bold;">CYBER ARSENAL</span>
                         </div>
                     </div>
                     <img src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=150&auto=format&fit=crop&q=80" class="card-img-preview" alt="الأدوات">
                 </div>
                 <div class="card-body">
-                    <p id="card4-desc">
+                    <p>
                         ترسانة الأدوات المعتمدة عالمياً في اختبارات الأمان والتحليل الجنائي الرقمي (Digital Forensics)، المصممة خصيصاً للتعامل مع أضخم البيئات المعقدة.
                     </p>
-                    <ul class="card-list" id="card4-list">
+                    <ul class="card-list">
                         <li><strong>أنظمة التشغيل المخصصة:</strong> Kali Linux, Parrot Security OS, BlackArch.</li>
                         <li><strong>محللات الحزم الشبكية:</strong> Wireshark, Nmap, Burp Suite Professional.</li>
                         <li><strong>منصات الاستغلال التكتيكي:</strong> Metasploit Framework, Cobalt Strike.</li>
@@ -1024,8 +1027,8 @@
 
         <!-- أداة 2: خريطة التهديدات الحية -->
         <div class="threat-map-section">
-            <h3 style="color: var(--cyan-glow);" id="txt-map-title"><i class="fa-solid fa-earth-americas"></i> خريطة التهديدات والهجمات الحية (Cyber Threat Map)</h3>
-            <p style="color: var(--text-muted); font-size: 14px;" id="txt-map-desc">محاكاة لمراقبة حركة المرور والهجمات السيبرانية النشطة بين الخوادم العالمية:</p>
+            <h3 style="color: var(--cyan-glow);"><i class="fa-solid fa-earth-americas"></i> خريطة التهديدات والهجمات الحية (Cyber Threat Map)</h3>
+            <p style="color: var(--text-muted); font-size: 14px;">محاكاة حية لتتبع حركة الاتصالات والهجمات السيبرانية النشطة بين العواصم العالمية:</p>
             <div class="map-container" id="mapBox">
                 <div class="map-log" id="mapLog">LOG: Intercepting global traffic...</div>
             </div>
@@ -1034,44 +1037,48 @@
         <!-- أداة 3: مركز التشفير وتوليد كلمات المرور -->
         <div class="cyber-hub-section">
             <div class="hub-card">
-                <h4 id="txt-pass-title"><i class="fa-solid fa-key" style="color: var(--red-glow);"></i> مولد كلمات المرور الفائقة</h4>
+                <h4><i class="fa-solid fa-key" style="color: var(--red-glow);"></i> مولد كلمات المرور الفائقة</h4>
                 <input type="text" id="passOutput" class="hub-input" readonly placeholder="اضغط توليد للإنشاء">
-                <button class="hub-btn" id="btn-gen-pass" onclick="generatePass()"><i class="fa-solid fa-rotate"></i> توليد كلمة مرور معقدة</button>
+                <button class="hub-btn" onclick="generatePass()"><i class="fa-solid fa-rotate"></i> توليد كلمة مرور معقدة</button>
             </div>
             <div class="hub-card">
-                <h4 id="txt-base64-title"><i class="fa-solid fa-code" style="color: var(--cyan-glow);"></i> مشفر ومفكك النصوص (Base64)</h4>
+                <h4><i class="fa-solid fa-code" style="color: var(--cyan-glow);"></i> مشفر ومفكك النصوص (Base64)</h4>
                 <input type="text" id="base64Input" class="hub-input" placeholder="أدخل النص هنا...">
                 <div style="display: flex; gap: 10px;">
-                    <button class="hub-btn" id="btn-enc" style="background: var(--cyan-glow);" onclick="encodeBase64()">تشفير</button>
-                    <button class="hub-btn" id="btn-dec" style="background: var(--purple-glow); color: #fff;" onclick="decodeBase64()">فك التشفير</button>
+                    <button class="hub-btn" style="background: var(--cyan-glow);" onclick="encodeBase64()">تشفير</button>
+                    <button class="hub-btn" style="background: var(--purple-glow); color: #fff;" onclick="decodeBase64()">فك التشفير</button>
                 </div>
             </div>
         </div>
 
         <!-- أداة 4: فحص الثغرات التفاعلي -->
         <div class="interactive-section">
-            <h3 style="color: var(--green-glow);" id="txt-scan-title"><i class="fa-solid fa-terminal"></i> أداة محاكاة فحص الثغرات التكتيكي</h3>
-            <p style="color: var(--text-muted); font-size: 14px;" id="txt-scan-desc">أدخل أي رابط موقع أو اسم حساب لاختبار محاكاة الفحص بالأكواد البرمجية الحية:</p>
+            <h3 style="color: var(--green-glow);"><i class="fa-solid fa-terminal"></i> أداة محاكاة فحص الثغرات التكتيكي الحقيقي</h3>
+            <p style="color: var(--text-muted); font-size: 14px;">أدخل أي رابط موقع أو اسم حساب لاختبار محاكاة الفحص بالأكواد البرمجية الحية:</p>
             <div class="scanner-box">
                 <input type="text" id="scanTarget" class="scanner-input" placeholder="مثال: https://target-site.com أو @username">
-                <button class="scanner-btn" id="btn-scan" onclick="startScan()"><i class="fa-solid fa-bolt"></i> بدء الفحص التكتيكي</button>
+                <button class="scanner-btn" onclick="startScan()"><i class="fa-solid fa-bolt"></i> بدء الفحص التكتيكي</button>
+            </div>
+            <div class="progress-bar-container" id="progContainer">
+                <div class="progress-bar" id="progBar"></div>
             </div>
             <div id="scanConsole" class="scan-terminal"></div>
         </div>
 
-        <!-- أداة 5: اختبار جودة الأمان التفاعلي المتكامل -->
+        <!-- أداة 5: اختبار أمان جهازك وحسابك -->
         <div class="quiz-section">
-            <h3 style="color: var(--purple-glow);" id="txt-quiz-title"><i class="fa-solid fa-shield-cat"></i> اختبار مستوى الأمان الرقمي لحسابك</h3>
-            <div id="quizContainer">
-                <!-- سيتم بناء المحتوى تفاعلياً بالنصوص الحية -->
+            <h3 style="color: var(--purple-glow);"><i class="fa-solid fa-shield-cat"></i> مركز فحص وتشخيص أمان جهازك وحسابك</h3>
+            <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">أجب عن الأسئلة التالية لتحديد مستوى أمان جهازك والتعرف على نقاط الضغط والضعف لديك:</p>
+            <div id="quizContainer" style="margin-top: 20px;">
+                <!-- المحتوى التفاعلي يبنى بالسكربت -->
             </div>
         </div>
 
         <!-- 3. ترسانة الأدوات التفاعلية -->
         <div class="tools-section">
             <div class="section-header" style="margin-bottom: 20px;">
-                <h3 style="color: #fff; font-size: 1.8rem;" id="txt-arsenal-title">ترسانة منصة عباس الرقمية</h3>
-                <p id="txt-arsenal-desc">أبرز الأدوات البرمجية الشائعة في المعارك السيبرانية</p>
+                <h3 style="color: #fff; font-size: 1.8rem;">ترسانة منصة عباس الرقمية</h3>
+                <p>أبرز الأدوات البرمجية الشائعة في المعارك السيبرانية</p>
             </div>
             <div class="tools-grid">
                 <div class="tool-box" onclick="playBeep()">
@@ -1114,21 +1121,53 @@
 
     <!-- الفوتر -->
     <footer>
-        <p id="txt-footer-rights">جميع الحقوق محفوظة © 2026 | تطوير وتصميم <strong>منصة عباس للأمن السيبراني</strong></p>
+        <p>جميع الحقوق محفوظة © 2026 | تطوير وتصميم <strong>منصة عباس للأمن السيبراني</strong></p>
         <p style="margin-top: 5px; font-size: 13px;">
-            <span id="txt-footer-contact">تواصل مباشر:</span> <a href="https://t.me/E44_l" target="_blank">@E44_l</a> | <span id="txt-footer-chan">القناة الرسمية:</span> <a href="https://t.me/D44_l" target="_blank">t.me/D44_l</a>
+            تواصل مباشر: <a href="https://t.me/E44_l" target="_blank">@E44_l</a> | القناة الرسمية: <a href="https://t.me/D44_l" target="_blank">t.me/D44_l</a>
         </p>
     </footer>
 
     <!-- البرمجيات والتفاعلات السكربتية المحدثة بالكامل -->
     <script>
-        /* 1. نظام مبدل الثيمات (Theme Switcher) */
+        /* 1. نظام الأصوات التفاعلية Audio Synthesizer */
+        let soundEnabled = true;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playBeep(freq = 440, type = 'sine', duration = 0.08) {
+            if (!soundEnabled) return;
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const soundIcon = document.getElementById('soundIcon');
+            if (soundEnabled) {
+                soundIcon.className = "fa-solid fa-volume-high";
+                playBeep(600, 'square', 0.1);
+            } else {
+                soundIcon.className = "fa-solid fa-volume-xmark";
+            }
+        }
+
+        /* 2. نظام مبدل الثيمات (Theme Switcher) */
         const themes = ['theme-red', 'theme-blue', 'theme-matrix'];
         const themeNames = ['Red Team', 'Blue Team', 'Matrix Green'];
         let currentThemeIdx = 0;
 
         function cycleTheme() {
-            playBeep();
+            playBeep(800, 'sine', 0.1);
             document.body.classList.remove(themes[currentThemeIdx]);
             currentThemeIdx = (currentThemeIdx + 1) % themes.length;
             if (themes[currentThemeIdx] !== 'theme-red') {
@@ -1137,151 +1176,209 @@
             document.getElementById('themeLabel').innerText = themeNames[currentThemeIdx];
         }
 
-        /* 2. نظام تغيير اللغة الشامل والدقيق (AR / EN Switcher) */
-        let currentLang = 'ar';
-
-        const langData = {
-            ar: {
-                brandTag: "مركزي السيبراني",
-                themeLabel: "Red Team",
-                langLabel: "English",
-                owner: "المالك: عباس | ABBAS",
-                title: "منصة عباس للأمن السيبراني",
-                btnStart: "أهلاً بعالمك.. اضغط ابدأ",
-                btnChannel: "الانضمام للقناة الرسمية",
-                secTitle: "الأقسام التخصصية للمنصة",
-                secDesc: "منظومة كاملة تغطي كافة مجالات الردع الرقمي والاختبارات التكتيكية",
-                
-                card1Title: "الحماية والدفاع الرقمي",
-                card1Desc: "تركز حماية المنظومات السيبرانية على إنشاء أسوار رقمية غير قابلة للاختراق، وتتبع الهجمات النشطة واستجابة الحوادث فور حدوثها لمنع تسريب البيانات الحساسة أو تشفيرها بوساطة برمجيات الفدية.",
-                card1List: [
-                    "<strong>أنظمة SOC & SIEM:</strong> مراقبة سجلات النظام والشبكة على مدار 24/7 للتحليل الفوري.",
-                    "<strong>جدران الحماية (NGFW):</strong> تصفية الحزم الخبيثة والتصدي لهجمات حجب الخدمة (DDoS).",
-                    "<strong>التشفير المتقدم (AES-256):</strong> تأمين البيانات أثناء التنقل والسكون ببروتوكولات عالية التعقيد."
-                ],
-
-                card2Title: "الهجوم واختبار الاختراق",
-                card2Desc: "محاكاة هجمات الواقع وتفحص البنية التحتية بنفس أساليب المهاجمين المحترفين لتحديد الثغرات الأمنية (Zero-Days) وإغلاقها قبل أن يستغلها الخصوم السيبرانيون.",
-                card2List: [
-                    "<strong>اختبار تطبيقات الويب:</strong> كشف ثغرات SQLi, XSS, CSRF, RCE وتخطيات الصلاحيات.",
-                    "<strong>هندسة عكسية (Reverse Engineering):</strong> تفكيك البرمجيات الخبيثة وفهم آلية عملها.",
-                    "<strong>اختراق الشبكات اللاسلكية:</strong> تقييم ثغرات WPA3 واختبار أمان نقاط الوصول الشبكية."
-                ],
-
-                card3Title: "الاستخبارات والتعقب الرقمي",
-                card3Desc: "جمع البيانات وتتبع الأثر الرقمي من المصادر المفتوحة والدارك ويب (Dark Web) للتنبؤ بالهجمات المستقبلية وتحليل العنصر البشري الذي يُعد أضعف حلقة في الأمان.",
-                card3List: [
-                    "<strong>جمع المعلومات (OSINT):</strong> كشف النطاقات الفرعية والأصول الرقمية المكشوفة.",
-                    "<strong>التصيد الاحتيالي (Phishing):</strong> تقييم وعي الموظفين وحمايتهم من الهندسة الاجتماعية.",
-                    "<strong>مراقبة تسريبات الدارك ويب:</strong> تتبع الحسابات والبيانات المخترقة المسربة فوراً."
-                ],
-
-                card4Title: "الأدوات والأنظمة التكتيكية",
-                card4Desc: "ترسانة الأدوات المعتمدة عالمياً في اختبارات الأمان والتحليل الجنائي الرقمي (Digital Forensics)، المصممة خصيصاً للتعامل مع أضخم البيئات المعقدة.",
-                card4List: [
-                    "<strong>أنظمة التشغيل المخصصة:</strong> Kali Linux, Parrot Security OS, BlackArch.",
-                    "<strong>محللات الحزم الشبكية:</strong> Wireshark, Nmap, Burp Suite Professional.",
-                    "<strong>منصات الاستغلال التكتيكي:</strong> Metasploit Framework, Cobalt Strike."
-                ],
-
-                mapTitle: "<i class='fa-solid fa-earth-americas'></i> خريطة التهديدات والهجمات الحية (Cyber Threat Map)",
-                mapDesc: "محاكاة لمراقبة حركة المرور والهجمات السيبرانية النشطة بين الخوادم العالمية:",
-                passTitle: "<i class='fa-solid fa-key' style='color: var(--red-glow);'></i> مولد كلمات المرور الفائقة",
-                btnGenPass: "<i class='fa-solid fa-rotate'></i> توليد كلمة مرور معقدة",
-                passPlaceholder: "اضغط توليد للإنشاء",
-                base64Title: "<i class='fa-solid fa-code' style='color: var(--cyan-glow);'></i> مشفر ومفكك النصوص (Base64)",
-                base64Placeholder: "أدخل النص هنا...",
-                btnEnc: "تشفير",
-                btnDec: "فك التشفير",
-                scanTitle: "<i class='fa-solid fa-terminal'></i> أداة محاكاة فحص الثغرات التكتيكي",
-                scanDesc: "أدخل أي رابط موقع أو اسم حساب لاختبار محاكاة الفحص بالأكواد البرمجية الحية:",
-                scanPlaceholder: "مثال: https://target-site.com أو @username",
-                btnScan: "<i class='fa-solid fa-bolt'></i> بدء الفحص التكتيكي",
-                quizTitle: "<i class='fa-solid fa-shield-cat'></i> اختبار مستوى الأمان الرقمي لحسابك",
-                arsenalTitle: "ترسانة منصة عباس الرقمية",
-                arsenalDesc: "أبرز الأدوات البرمجية الشائعة في المعارك السيبرانية",
-                footerRights: "جميع الحقوق محفوظة © 2026 | تطوير وتصميم <strong>منصة عباس للأمن السيبراني</strong>",
-                footerContact: "تواصل مباشر:",
-                footerChan: "القناة الرسمية:"
-            },
-            en: {
-                brandTag: "CYBER HQ",
-                themeLabel: themeNames[currentThemeIdx],
-                langLabel: "العربية",
-                owner: "Owner: ABBAS",
-                title: "ABBAS CYBER SECURITY PLATFORM",
-                btnStart: "Welcome.. Click to Start",
-                btnChannel: "Join Official Channel",
-                secTitle: "Specialized Cyber Divisions",
-                secDesc: "A complete ecosystem covering digital defense & red-teaming operations",
-                
-                card1Title: "Cyber Defense & Blue Teaming",
-                card1Desc: "Focuses on establishing impenetrable digital perimeters, active threat hunting, and incident response to prevent data breaches and ransomware encryption.",
-                card1List: [
-                    "<strong>SOC & SIEM Systems:</strong> 24/7 network and system log monitoring for instant analysis.",
-                    "<strong>Next-Gen Firewalls (NGFW):</strong> Filtering malicious packets and mitigating DDoS attacks.",
-                    "<strong>Advanced Encryption (AES-256):</strong> Securing data in transit and at rest with complex protocols."
-                ],
-
-                card2Title: "Red Teaming & Penetration Testing",
-                card2Desc: "Simulating real-world attacks to assess infrastructure vulnerabilities (Zero-Days) and patch them before cyber adversaries exploit them.",
-                card2List: [
-                    "<strong>Web Application Pentesting:</strong> Uncovering SQLi, XSS, CSRF, RCE, and privilege escalation.",
-                    "<strong>Reverse Engineering:</strong> Decompiling malware binaries to decode their behavior.",
-                    "<strong>Wireless Network Exploitation:</strong> Auditing WPA3 vulnerabilities and Wi-Fi access points."
-                ],
-
-                card3Title: "Threat Intel & OSINT",
-                card3Desc: "Gathering threat intelligence from open sources and the Dark Web to predict attacks and assess human risks in security.",
-                card3List: [
-                    "<strong>Open Source Intel (OSINT):</strong> Mapping subdomains and exposed digital assets.",
-                    "<strong>Phishing Simulations:</strong> Testing employee awareness against social engineering.",
-                    "<strong>Dark Web Monitoring:</strong> Tracking leaked credentials and breached databases instantly."
-                ],
-
-                card4Title: "Tactical Arsenal & Tools",
-                card4Desc: "Industry-standard toolkit for security auditing and Digital Forensics, tailored for high-complexity enterprise environments.",
-                card4List: [
-                    "<strong>Specialized Operating Systems:</strong> Kali Linux, Parrot Security OS, BlackArch.",
-                    "<strong>Network Packet Analyzers:</strong> Wireshark, Nmap, Burp Suite Professional.",
-                    "<strong>Exploitation Frameworks:</strong> Metasploit Framework, Cobalt Strike."
-                ],
-
-                mapTitle: "<i class='fa-solid fa-earth-americas'></i> Live Cyber Threat Map Simulation",
-                mapDesc: "Real-time monitoring simulation of active cyber traffic between global servers:",
-                passTitle: "<i class='fa-solid fa-key' style='color: var(--red-glow);'></i> Ultra Password Generator",
-                btnGenPass: "<i class='fa-solid fa-rotate'></i> Generate Complex Password",
-                passPlaceholder: "Click generate to create",
-                base64Title: "<i class='fa-solid fa-code' style='color: var(--cyan-glow);'></i> Base64 Encoder / Decoder",
-                base64Placeholder: "Enter text here...",
-                btnEnc: "Encode",
-                btnDec: "Decode",
-                scanTitle: "<i class='fa-solid fa-terminal'></i> Tactical Vulnerability Scanner Simulator",
-                scanDesc: "Enter any domain or username to run an interactive live security assessment simulation:",
-                scanPlaceholder: "e.g., https://target-site.com or @username",
-                btnScan: "<i class='fa-solid fa-bolt'></i> Run Tactical Scan",
-                quizTitle: "<i class='fa-solid fa-shield-cat'></i> Account Security Diagnostic Quiz",
-                arsenalTitle: "Abbas Platform Cyber Arsenal",
-                arsenalDesc: "Top software tools widely deployed in cyber warfare",
-                footerRights: "All Rights Reserved © 2026 | Developed by <strong>Abbas Cyber Security</strong>",
-                footerContact: "Direct Contact:",
-                footerChan: "Official Channel:"
-            }
-        };
-
+        /* 3. زر تحويل اللغة - ملغى ومخصص للغة العربية */
         function toggleLanguage() {
-            playBeep();
-            currentLang = (currentLang === 'ar') ? 'en' : 'ar';
-            document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
-            document.documentElement.lang = currentLang;
+            playBeep(200, 'sawtooth', 0.1);
+            alert("المنصة مصممة حصرياً باللغة العربية لدعم الأبحاث والخدمات التكتيكية بالمنطقة.");
+        }
 
-            const d = langData[currentLang];
+        /* 4. كود الماتريكس التكتيكي في Hero */
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
 
-            document.getElementById('brand-tag').innerText = d.brandTag;
-            document.getElementById('langLabel').innerText = d.langLabel;
-            document.getElementById('txt-owner').innerText = d.owner;
-            document.getElementById('txt-title').innerText = d.title;
-            document.getElementById('txt-btn-start').innerText = d.btnStart;
-            document.getElementById('txt-btn-channel').innerText = d.btnChannel;
-            document.getElementById('txt-sec-title').innerText = d.secTitle;
-            document.getElementById('txt-sec-de
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const matrixChars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ010101#$%-+';
+        const fontSize = 14;
+        let columns = Math.floor(canvas.width / fontSize);
+        let drops = Array(columns).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(5, 5, 8, 0.08)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--green-glow') || '#00ff66';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixChars.charAt(Math.floor(Math.random() * matrixChars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 35);
+
+        /* 5. نص الهكر المتحرك */
+        const phrases = [
+            "جاري تشغيل بروتوكول الردع الرقمي...",
+            "فحص المنافذ والتصدي للهجمات النشطة...",
+            "مرحباً بك في مركزي السيبراني الخاص - عباس",
+            "نظام الحماية والأمان السيبراني يعمل بكفاءة عالية."
+        ];
+        let pIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+        const typingElem = document.getElementById('typing-text');
+
+        function typeLoop() {
+            const currentPhrase = phrases[pIdx];
+            if (isDeleting) {
+                typingElem.innerText = currentPhrase.substring(0, charIdx--);
+            } else {
+                typingElem.innerText = currentPhrase.substring(0, charIdx++);
+            }
+
+            let typeSpeed = isDeleting ? 30 : 70;
+
+            if (!isDeleting && charIdx > currentPhrase.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                pIdx = (pIdx + 1) % phrases.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeLoop, typeSpeed);
+        }
+        typeLoop();
+
+        /* 6. محاكي التيرمينال الحقيقي */
+        function handleTermCommand(e) {
+            if (e.key === 'Enter') {
+                playBeep(500, 'square', 0.05);
+                const input = document.getElementById('termInput');
+                const cmd = input.value.trim().toLowerCase();
+                const termBody = document.getElementById('termBody');
+
+                const cmdLine = document.createElement('div');
+                cmdLine.innerHTML = `<span style="color: var(--red-glow);">root@abbas-hq:~#</span> ${input.value}`;
+                termBody.appendChild(cmdLine);
+
+                const resLine = document.createElement('div');
+                resLine.style.marginBottom = "10px";
+
+                switch(cmd) {
+                    case 'help':
+                        resLine.innerHTML = `الأوامر المتاحة:<br>
+                        - <span style="color:var(--cyan-glow);">help</span>: عرض قائمة الأوامر<br>
+                        - <span style="color:var(--cyan-glow);">scan</span>: إجراء فحص أمني سريع للنظام<br>
+                        - <span style="color:var(--cyan-glow);">status</span>: عرض حالة المنظومة والاتصال<br>
+                        - <span style="color:var(--cyan-glow);">ping</span>: اختار سرعة الاستجابة للسيرفر الرئيسي<br>
+                        - <span style="color:var(--cyan-glow);">whoami</span>: عرض بيانات صلاحيات المستخدم الحالي<br>
+                        - <span style="color:var(--cyan-glow);">clear</span>: مسح الشاشة`;
+                        break;
+                    case 'scan':
+                        resLine.innerHTML = `<span style="color:var(--yellow-glow);">[+] جاري فحص المنافذ والبروتوكولات...</span><br>[OK] Firewall is ACTIVE.<br>[OK] No leaks detected on root node.`;
+                        break;
+                    case 'status':
+                        resLine.innerHTML = `STATUS: <span style="color:var(--green-glow);">ONLINE</span> | NODE: Baghdad-HQ | ENCRYPTION: AES-256`;
+                        break;
+                    case 'ping':
+                        resLine.innerHTML = `PONG! Response time: ${Math.floor(Math.random()*15 + 5)}ms`;
+                        break;
+                    case 'whoami':
+                        resLine.innerHTML = `User: root | Privilege Level: 0 (Full Admin Access)`;
+                        break;
+                    case 'clear':
+                        termBody.innerHTML = '';
+                        input.value = '';
+                        return;
+                    case '':
+                        resLine.innerHTML = '';
+                        break;
+                    default:
+                        resLine.innerHTML = `<span style="color: var(--red-glow);">عفواً، الأمر غير معروف. اكتب 'help' لعرض الأوامر المتاحة.</span>`;
+                }
+
+                termBody.appendChild(resLine);
+                input.value = '';
+                termBody.scrollTop = termBody.scrollHeight;
+            }
+        }
+
+        /* 7. محاكاة خريطة التهديدات والمواقع الحية */
+        const attackOrigins = ['Tokyo', 'London', 'Frankfurt', 'New York', 'Moscow', 'Baghdad', 'Dubai', 'Singapore'];
+        const attackTargets = ['Server-US-East', 'HQ-Database-IR', 'EU-Auth-Node', 'Asia-Routing-Hub'];
+        const attackTypes = ['DDoS Flood', 'SQLi Attempt', 'Brute Force SSH', 'Zero-Day Exploit Payload'];
+
+        function triggerMapAttack() {
+            const mapBox = document.getElementById('mapBox');
+            const mapLog = document.getElementById('mapLog');
+
+            const origin = attackOrigins[Math.floor(Math.random() * attackOrigins.length)];
+            const target = attackTargets[Math.floor(Math.random() * attackTargets.length)];
+            const type = attackTypes[Math.floor(Math.random() * attackTypes.length)];
+
+            mapLog.innerHTML = `<span style="color: var(--red-glow); font-weight: bold;">[WARN]</span> ATTACK DETECTED: ${origin} ➔ ${target} (${type})`;
+            playBeep(200, 'sawtooth', 0.03);
+
+            // إنشاء شريط هجومي متحرك
+            const line = document.createElement('div');
+            line.style.position = 'absolute';
+            line.style.height = '2px';
+            line.style.background = 'linear-gradient(90deg, transparent, var(--red-glow), transparent)';
+            line.style.width = Math.floor(Math.random() * 150 + 50) + 'px';
+            line.style.top = Math.floor(Math.random() * 250 + 30) + 'px';
+            line.style.left = Math.floor(Math.random() * 60 + 10) + '%';
+            line.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
+            line.style.boxShadow = '0 0 10px var(--red-glow)';
+
+            mapBox.appendChild(line);
+
+            setTimeout(() => {
+                line.remove();
+            }, 1200);
+        }
+        setInterval(triggerMapAttack, 2500);
+
+        /* 8. مولد كلمات المرور ومفكك Base64 */
+        function generatePass() {
+            playBeep(700, 'sine', 0.08);
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}";
+            let pass = "";
+            for (let i = 0; i < 18; i++) {
+                pass += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('passOutput').value = pass;
+        }
+
+        function encodeBase64() {
+            playBeep(600, 'sine', 0.05);
+            const input = document.getElementById('base64Input').value;
+            if(!input) return;
+            try {
+                document.getElementById('base64Input').value = btoa(unescape(encodeURIComponent(input)));
+            } catch(e) {
+                alert("تعذر التشفير!");
+            }
+        }
+
+        function decodeBase64() {
+            playBeep(600, 'sine', 0.05);
+            const input = document.getElementById('base64Input').value;
+            if(!input) return;
+            try {
+                document.getElementById('base64Input').value = decodeURIComponent(escape(atob(input)));
+            } catch(e) {
+                alert("الرمز المدخل غير صالح لفك التشفير!");
+            }
+        }
+
+        /* 9. محاكي فحص الثغرات الحقيقي التفاعلي */
+        let isScanning = false;
+        function startScan() {
+            if (isScanning) return;
+            const target = document.getElementById('scanTarget').value.trim();
+            if (!target) {
+                alert("يرجى إدخال رابط أو اسم حساب أولاً للبدء بالفحص!");
+  
