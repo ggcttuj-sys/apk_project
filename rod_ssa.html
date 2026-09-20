@@ -11,58 +11,18 @@
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      cursor: none; /* إخفاء مؤشر الماوس العادي واستبداله بالمخصص */
     }
 
     body {
-      background-color: #030305;
+      background-color: #050508;
       color: #e0e0e0;
       line-height: 1.6;
       padding-bottom: 50px;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* خلفية الماتريكس */
-    #matrix-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      opacity: 0.15;
-    }
-
-    /* مؤشر الماوس السيبراني المخصص */
-    #custom-cursor {
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      border: 2px solid #00ffcc;
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: transform 0.05s ease, background-color 0.2s, border-color 0.2s;
-      z-index: 999999;
-      box-shadow: 0 0 10px #00ffcc;
-    }
-
-    #custom-cursor-dot {
-      position: fixed;
-      width: 4px;
-      height: 4px;
-      background: #ff0055;
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      z-index: 999999;
     }
 
     /* الهيدر والعنوان الرئيسي */
     header {
-      background: rgba(13, 13, 21, 0.8);
-      backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, #0d0d15 0%, #050508 100%);
       text-align: center;
       padding: 40px 20px 20px;
       border-bottom: 1px solid #00ffcc33;
@@ -71,7 +31,7 @@
     header h1 {
       color: #00ffcc;
       font-size: 2.2rem;
-      text-shadow: 0 0 12px rgba(0, 255, 204, 0.5);
+      text-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
       margin-bottom: 10px;
     }
 
@@ -89,23 +49,21 @@
 
     /* كروت الأقسام */
     .cyber-card {
-      background: rgba(13, 13, 20, 0.85);
-      backdrop-filter: blur(10px);
+      background: #0d0d14;
       border-radius: 12px;
       padding: 25px;
       margin-bottom: 30px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
       transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .cyber-card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-2px);
     }
 
-    .card-teal { border: 1px solid #00ffcc55; box-shadow: 0 0 15px rgba(0, 255, 204, 0.15); }
-    .card-red { border: 1px solid #ff005555; box-shadow: 0 0 15px rgba(255, 0, 85, 0.15); }
-    .card-yellow { border: 1px solid #ffcc0055; box-shadow: 0 0 15px rgba(255, 204, 0, 0.15); }
-    .card-purple { border: 1px solid #b300ff55; box-shadow: 0 0 15px rgba(179, 0, 255, 0.15); }
+    .card-teal { border: 1px solid #00ffcc55; box-shadow: 0 0 15px rgba(0, 255, 204, 0.1); }
+    .card-red { border: 1px solid #ff005555; box-shadow: 0 0 15px rgba(255, 0, 85, 0.1); }
+    .card-yellow { border: 1px solid #ffcc0055; box-shadow: 0 0 15px rgba(255, 204, 0, 0.1); }
 
     .cyber-card h2 {
       margin-bottom: 12px;
@@ -129,7 +87,7 @@
       margin-top: 10px;
     }
 
-    #term-input, .cyber-input {
+    #term-input {
       width: 100%;
       margin-top: 12px;
       padding: 12px;
@@ -141,7 +99,7 @@
       outline: none;
     }
 
-    #term-input:focus, .cyber-input:focus {
+    #term-input:focus {
       border-color: #00ffcc;
     }
 
@@ -150,6 +108,7 @@
       width: 100%;
       margin: 20px 0;
       accent-color: #ff0055;
+      cursor: pointer;
     }
 
     .calc-stats {
@@ -161,11 +120,21 @@
       border-radius: 8px;
     }
 
-    /* 3. التحدي والأزرار */
+    /* 3. التحدي */
     .ctf-box {
       display: flex;
       gap: 10px;
       margin-top: 15px;
+    }
+
+    .ctf-input {
+      flex: 1;
+      padding: 12px;
+      background: #12121c;
+      border: 1px solid #2a2a3d;
+      color: #fff;
+      border-radius: 6px;
+      outline: none;
     }
 
     .ctf-btn {
@@ -175,6 +144,7 @@
       font-weight: bold;
       border: none;
       border-radius: 6px;
+      cursor: pointer;
       transition: background 0.2s;
     }
 
@@ -190,7 +160,7 @@
       width: 100%;
       height: 100%;
       background: rgba(3, 3, 5, 0.96);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(5px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -235,18 +205,16 @@
       font-weight: bold;
       border: none;
       border-radius: 6px;
+      cursor: pointer;
       font-size: 1rem;
+    }
+
+    .gate-btn:hover {
+      background: #00cca3;
     }
   </style>
 </head>
 <body>
-
-  <!-- مؤشر الماوس السيبراني -->
-  <div id="custom-cursor"></div>
-  <div id="custom-cursor-dot"></div>
-
-  <!-- خلفية الماتريكس المتحركة -->
-  <canvas id="matrix-canvas"></canvas>
 
   <!-- نافذة تسجيل الدخول السرية -->
   <div id="gate-modal">
@@ -280,18 +248,7 @@
       <input type="text" id="term-input" placeholder="اكتب الأمر هنا واضغط Enter..." onkeydown="if(event.key==='Enter') runCommand()">
     </div>
 
-    <!-- 2. أداة التشفير وفك التشفير المباشرة -->
-    <div class="cyber-card card-purple">
-      <h2 style="color: #b300ff;">🔐 محول الأكواد والشفرات (Base64 Encoder/Decoder)</h2>
-      <p style="font-size: 0.85rem; color: #aaa;">اكتب أي نص للتشفير أو فك التشفير التلقائي:</p>
-      <input type="text" id="encoder-input" class="cyber-input" placeholder="أدخل النص هنا..." oninput="processBase64()">
-      <div style="margin-top: 12px; background: #08080c; padding: 12px; border-radius: 6px; border: 1px solid #222;">
-        <span style="color: #b300ff; font-size: 0.85rem;">النص المشفّر (Base64):</span>
-        <div id="encoder-output" style="color: #00ffcc; font-family: monospace; word-break: break-all; margin-top: 4px;">-</div>
-      </div>
-    </div>
-
-    <!-- 3. حاسبة قيمة البيانات -->
+    <!-- 2. حاسبة قيمة البيانات -->
     <div class="cyber-card card-red">
       <h2 style="color: #ff0055;">💰 حاسبة قيمة البيانات في السوق السوداء</h2>
       <p style="font-size: 0.9rem; color: #ccc;">قم بتحريك الشريط لتر كم تساوي بياناتك وحساباتك تقريبياً إذا تسربت:</p>
@@ -304,7 +261,7 @@
       </div>
     </div>
 
-    <!-- 4. تحدي الـ CTF -->
+    <!-- 3. تحدي الـ CTF -->
     <div class="cyber-card card-yellow">
       <h2 style="color: #ffcc00;">🏆 تحدي استخراج العلم (CTF Challenge)</h2>
       <p style="font-size: 0.9rem; color: #ccc;">اكتشف العلم المخفي في النظام وأدخله في المربع أدناه:</p>
@@ -313,7 +270,7 @@
       </p>
       
       <div class="ctf-box">
-        <input type="text" id="flag-input" class="cyber-input" style="margin-top:0;" placeholder="أدخل الـ Flag هنا...">
+        <input type="text" id="flag-input" class="ctf-input" placeholder="أدخل الـ Flag هنا...">
         <button onclick="checkFlag()" class="ctf-btn">فحص</button>
       </div>
       <p id="flag-result" style="margin-top: 12px; font-weight: bold; font-size: 0.9rem;"></p>
@@ -323,57 +280,7 @@
 
   <!-- البرمجة والوظائف (JavaScript) -->
   <script>
-    // 1. حركة مؤشر الماوس السيبراني
-    const cursor = document.getElementById('custom-cursor');
-    const dot = document.getElementById('custom-cursor-dot');
-
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-      dot.style.left = e.clientX + 'px';
-      dot.style.top = e.clientY + 'px';
-    });
-
-    // 2. خلفية الماتريكس (Matrix Rain Effect)
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const chars = '0123456789ABCDEFGHJKLMNPQRSTUVWXYZ@#$%&*';
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = Array(Math.floor(columns)).fill(1);
-
-    function drawMatrix() {
-      ctx.fillStyle = 'rgba(3, 3, 5, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#00ffcc';
-      ctx.font = fontSize + 'px monospace';
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = chars.charAt(Math.floor(Math.random() * chars.length));
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    }
-    setInterval(drawMatrix, 33);
-
-    // 3. أداة التشفير Base64
-    function processBase64() {
-      const val = document.getElementById('encoder-input').value;
-      const out = document.getElementById('encoder-output');
-      try {
-        out.innerText = val ? btoa(unescape(encodeURIComponent(val))) : '-';
-      } catch (e) {
-        out.innerText = 'خطأ في التشفير';
-      }
-    }
-
-    // 4. بوابة الدخول
+    // 1. وظيفة بوابة الدخول
     function unlockGate() {
       const code = document.getElementById('passcode-input').value.trim();
       const errorMsg = document.getElementById('gate-error');
@@ -385,7 +292,7 @@
       }
     }
 
-    // 5. التيرمنال
+    // 2. وظيفة التيرمنال
     function runCommand() {
       const input = document.getElementById('term-input');
       const output = document.getElementById('term-output');
@@ -394,6 +301,7 @@
       if (!cmd) return;
       
       let responseText = '';
+      
       switch(cmd) {
         case 'help':
           responseText = "الأوامر المتاحة: [whoami] [tools] [abbas] [clear]";
@@ -417,18 +325,21 @@
       
       output.innerHTML += `<div style="color:#fff; margin-top:5px;">> ${input.value}</div>`;
       output.innerHTML += `<div style="color:#00ffcc; margin-bottom:8px;">${responseText}</div>`;
+      
       output.scrollTop = output.scrollHeight;
       input.value = '';
     }
 
-    // 6. حاسبة البيانات
+    // 3. وظيفة حاسبة البيانات
     function calcDataValue() {
       const count = document.getElementById('acc-range').value;
+      const totalPrice = count * 5; 
+      
       document.getElementById('acc-count').innerText = count;
-      document.getElementById('data-price').innerText = '$' + (count * 5);
+      document.getElementById('data-price').innerText = '$' + totalPrice;
     }
 
-    // 7. تحدي الـ CTF
+    // 4. وظيفة تحدي الـ CTF
     function checkFlag() {
       const userFlag = document.getElementById('flag-input').value.trim();
       const resultDisplay = document.getElementById('flag-result');
