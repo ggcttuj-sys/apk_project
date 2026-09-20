@@ -7,7 +7,7 @@
     <!-- أيقونات FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- خط تجوال العربي الاحترافي -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -17,9 +17,24 @@
             --green-glow: #00ff66;
             --cyan-glow: #00f0ff;
             --purple-glow: #9d00ff;
+            --accent-theme: #ff003c;
             --text-main: #e0e0e0;
             --text-muted: #888899;
             --border-color: #1f1f2e;
+        }
+
+        /* الثيمات التكتيكية */
+        body.theme-blue {
+            --red-glow: #00f0ff;
+            --accent-theme: #00f0ff;
+            --green-glow: #0088ff;
+        }
+
+        body.theme-matrix {
+            --red-glow: #00ff66;
+            --accent-theme: #00ff66;
+            --cyan-glow: #00ff66;
+            --purple-glow: #00cc44;
         }
 
         * {
@@ -35,6 +50,7 @@
             color: var(--text-main);
             overflow-x: hidden;
             line-height: 1.8;
+            transition: background 0.5s ease;
         }
 
         /* Scrollbar الهكر */
@@ -49,6 +65,60 @@
             border-radius: 4px;
         }
 
+        /* --- شريط التحكم العلوي المتقدم (Top Utility Nav) --- */
+        .utility-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(5, 5, 8, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 10px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo span {
+            color: var(--red-glow);
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ctrl-btn {
+            background: #000;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ctrl-btn:hover {
+            border-color: var(--red-glow);
+            box-shadow: 0 0 10px var(--red-glow);
+        }
+
         /* --- قسم الفيديو العلوي (Hero Section) --- */
         .hero {
             position: relative;
@@ -60,6 +130,7 @@
             align-items: center;
             text-align: center;
             overflow: hidden;
+            padding-top: 50px;
         }
 
         .hero video {
@@ -74,6 +145,18 @@
             filter: brightness(0.35) contrast(1.3) hue-rotate(320deg);
         }
 
+        /* كانفاس الماتريكس فوق الفيديو */
+        #matrix-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
         .hero-overlay {
             position: absolute;
             top: 0;
@@ -86,7 +169,7 @@
 
         .live-badge {
             position: absolute;
-            top: 25px;
+            top: 75px;
             right: 25px;
             background: rgba(15, 0, 0, 0.85);
             border: 1px solid var(--red-glow);
@@ -146,13 +229,12 @@
             box-shadow: 0 0 15px rgba(157, 0, 255, 0.4);
         }
 
-        /* شاشة أوامر التفاعلية */
         .terminal-text {
             color: var(--green-glow);
-            font-family: monospace;
+            font-family: 'Fira Code', monospace;
             font-size: 1.1rem;
             margin-bottom: 25px;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.85);
             padding: 10px 20px;
             border-radius: 8px;
             border: 1px solid rgba(0, 255, 102, 0.3);
@@ -214,7 +296,6 @@
             transform: translateY(-3px);
         }
 
-        /* شريط الأخبار والتحذيرات المتحرك */
         .ticker-bar {
             position: absolute;
             bottom: 0;
@@ -264,7 +345,6 @@
             font-size: 1.1rem;
         }
 
-        /* شبكة الأقسام الرئيسية */
         .sections-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
@@ -276,7 +356,6 @@
             .platform-title { font-size: 2.2rem; }
         }
 
-        /* بطاقة القسم */
         .cyber-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -374,6 +453,258 @@
             font-weight: bold;
         }
 
+        /* --- الأداة المتقدمة 1: محاكي التيرمينال الحقيقي (Interactive Console) --- */
+        .terminal-console-section {
+            margin-top: 80px;
+            background: #020204;
+            border: 1px solid var(--red-glow);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 0 30px rgba(255, 0, 60, 0.2);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .term-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .term-body {
+            height: 250px;
+            overflow-y: auto;
+            color: var(--green-glow);
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .term-input-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .term-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+        }
+
+        /* --- الأداة المتقدمة 2: خريطة الهجمات السيبرانية (Live Attack Map) --- */
+        .threat-map-section {
+            margin-top: 80px;
+            background: var(--card-bg);
+            border: 1px solid var(--cyan-glow);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.15);
+        }
+
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg') no-repeat center center;
+            background-size: contain;
+            border: 1px solid #1f1f2e;
+            border-radius: 12px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .attack-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--red-glow), transparent);
+            transform-origin: left center;
+            animation: attackPulse 2s infinite;
+        }
+
+        @keyframes attackPulse {
+            0% { opacity: 0; transform: scaleX(0); }
+            50% { opacity: 1; transform: scaleX(1); }
+            100% { opacity: 0; transform: scaleX(1); }
+        }
+
+        .map-log {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 11px;
+            color: var(--cyan-glow);
+            font-family: monospace;
+            border: 1px solid var(--border-color);
+        }
+
+        /* --- الأداة المتقدمة 3: مركز التشفير وتوليد كلمات المرور (Cyber Tools Hub) --- */
+        .cyber-hub-section {
+            margin-top: 80px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .hub-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 16px;
+        }
+
+        .hub-card h4 {
+            color: #fff;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hub-input {
+            width: 100%;
+            background: #000;
+            border: 1px solid var(--border-color);
+            color: var(--green-glow);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-family: monospace;
+            outline: none;
+        }
+
+        .hub-btn {
+            width: 100%;
+            background: var(--red-glow);
+            color: #000;
+            font-weight: bold;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .hub-btn:hover {
+            box-shadow: 0 0 15px var(--red-glow);
+        }
+
+        /* الأداة التفاعلية: فحص الثغرات التفاعلي */
+        .interactive-section {
+            margin-top: 80px;
+            background: var(--card-bg);
+            border: 1px solid var(--green-glow);
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 0 25px rgba(0, 255, 102, 0.15);
+        }
+
+        .scanner-box {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .scanner-input {
+            flex: 1;
+            min-width: 250px;
+            background: #000;
+            border: 1px solid var(--border-color);
+            color: var(--green-glow);
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-family: monospace;
+            outline: none;
+        }
+
+        .scanner-btn {
+            background: var(--green-glow);
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .scanner-btn:hover {
+            box-shadow: 0 0 20px var(--green-glow);
+        }
+
+        .scan-terminal {
+            background: #000;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 13px;
+            color: var(--green-glow);
+            min-height: 120px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        /* الأداة التفاعلية: اختبار جودة الأمان */
+        .quiz-section {
+            margin-top: 60px;
+            background: var(--card-bg);
+            border: 1px solid var(--purple-glow);
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 0 25px rgba(157, 0, 255, 0.15);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .quiz-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: right;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .quiz-btn:hover {
+            border-color: var(--purple-glow);
+            background: rgba(157, 0, 255, 0.1);
+        }
+
         /* --- قسم الأدوات التفاعلي --- */
         .tools-section {
             margin-top: 100px;
@@ -397,11 +728,13 @@
             border-radius: 10px;
             text-align: center;
             transition: 0.3s;
+            cursor: pointer;
         }
 
         .tool-box:hover {
             border-color: var(--cyan-glow);
             box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+            transform: translateY(-4px);
         }
 
         .tool-box i {
@@ -443,6 +776,7 @@
             text-decoration: none;
             transition: all 0.3s ease;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+            cursor: pointer;
         }
 
         .float-personal {
@@ -457,11 +791,16 @@
             box-shadow: 0 0 20px var(--cyan-glow);
         }
 
+        .float-sound {
+            background: var(--purple-glow);
+            color: #fff;
+            box-shadow: 0 0 20px var(--purple-glow);
+        }
+
         .float-btn:hover {
             transform: scale(1.15);
         }
 
-        /* --- الفوتر --- */
         footer {
             text-align: center;
             padding: 40px 20px;
@@ -483,13 +822,25 @@
 </head>
 <body>
 
+    <!-- شريط الأدوات العلوي العالمي -->
+    <div class="utility-nav">
+        <div class="brand-logo">
+            <i class="fa-solid fa-terminal" style="color: var(--red-glow);"></i> ABBAS <span>CYBER HQ</span>
+        </div>
+        <div class="nav-controls">
+            <button class="ctrl-btn" onclick="cycleTheme()"><i class="fa-solid fa-palette"></i> <span id="themeLabel">Red Team</span></button>
+            <button class="ctrl-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span id="langLabel">English</span></button>
+        </div>
+    </div>
+
     <!-- 1. قسم الفيديو العلوي (Hero Section) -->
     <section class="hero">
         <div class="live-badge">
             <span class="live-dot"></span> BATTLESTATION LIVE
         </div>
 
-        <!-- فيديو خلفية سيبراني سريعة بدون صوت -->
+        <canvas id="matrix-canvas"></canvas>
+
         <video autoplay loop muted playsinline webkit-playsinline preload="auto">
             <source src="https://assets.mixkit.co/videos/34487/34487-720.mp4" type="video/mp4">
         </video>
@@ -497,8 +848,8 @@
         <div class="hero-overlay"></div>
 
         <div class="hero-content">
-            <div class="owner-badge"><i class="fa-solid fa-crown"></i> المالك: عباس | ABBAS</div>
-            <h1 class="platform-title">منصة عباس للأمن السيبراني</h1>
+            <div class="owner-badge"><i class="fa-solid fa-crown"></i> <span id="txt-owner">المالك: عباس | ABBAS</span></div>
+            <h1 class="platform-title" id="txt-title">منصة عباس للأمن السيبراني</h1>
             
             <div class="terminal-text">
                 > root@abbas-cyber:~# <span id="typing-text">جاري تشغيل بروتوكول الردع...</span>
@@ -506,18 +857,17 @@
 
             <br>
             <div class="hero-action-btns">
-                <a href="#main-sections" class="start-btn">
-                    <span>أهلاً بعالمك.. اضغط ابدأ</span>
+                <a href="#main-sections" class="start-btn" onclick="playBeep()">
+                    <span id="txt-btn-start">أهلاً بعالمك.. اضغط ابدأ</span>
                     <i class="fa-solid fa-terminal"></i>
                 </a>
-                <a href="https://t.me/D44_l" target="_blank" class="channel-btn">
-                    <span>الانضمام للقناة الرسمية</span>
+                <a href="https://t.me/D44_l" target="_blank" class="channel-btn" onclick="playBeep()">
+                    <span id="txt-btn-channel">الانضمام للقناة الرسمية</span>
                     <i class="fa-solid fa-paper-plane"></i>
                 </a>
             </div>
         </div>
 
-        <!-- شريط الحالة الحي -->
         <div class="ticker-bar">
             <div class="ticker-content">
                 [SYSTEM STATUS: ONLINE] ■ [TELEGRAM OWNER: @E44_l] ■ [OFFICIAL CHANNEL: t.me/D44_l] ■ [FIREWALL: ACTIVE] ■ [WELCOME TO THE SHADOWS]
@@ -529,28 +879,28 @@
     <div class="container" id="main-sections">
         
         <div class="section-header">
-            <h2>الأقسام التخصصية للمنصة</h2>
-            <p>منظومة كاملة تغطي كافة مجالات الردع الرقمي والاختبارات التكتيكية</p>
+            <h2 id="txt-sec-title">الأقسام التخصصية للمنصة</h2>
+            <p id="txt-sec-desc">منظومة كاملة تغطي كافة مجالات الردع الرقمي والاختبارات التكتيكية</p>
         </div>
 
         <div class="sections-grid">
 
             <!-- قسم 1: الحماية والدفاع (Blue Teaming) -->
-            <div class="cyber-card" style="--card-accent: var(--cyan-glow);">
+            <div class="cyber-card" style="--card-accent: var(--cyan-glow);" onmouseenter="playBeep()">
                 <div class="card-top">
                     <div class="card-title-group">
                         <div class="card-icon">
                             <i class="fa-solid fa-shield-halved"></i>
                         </div>
                         <div>
-                            <h3>الحماية والدفاع الرقمي</h3>
+                            <h3 id="card1-title">الحماية والدفاع الرقمي</h3>
                             <span style="color: var(--cyan-glow); font-size: 12px; font-weight: bold;">BLUE TEAMING</span>
                         </div>
                     </div>
                     <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=150&auto=format&fit=crop&q=80" class="card-img-preview" alt="الحماية">
                 </div>
                 <div class="card-body">
-                    <p>
+                    <p id="card1-desc">
                         تركز حماية المنظومات السيبرانية على إنشاء أسوار رقمية غير قابلة للاختراق، وتتبع الهجمات النشطة واستجابة الحوادث فور حدوثها لمنع تسريب البيانات الحساسة أو تشفيرها بوساطة برمجيات الفدية.
                     </p>
                     <ul class="card-list">
@@ -562,21 +912,21 @@
             </div>
 
             <!-- قسم 2: الاختراق الأخلاقي والهجوم (Red Teaming) -->
-            <div class="cyber-card" style="--card-accent: var(--red-glow);">
+            <div class="cyber-card" style="--card-accent: var(--red-glow);" onmouseenter="playBeep()">
                 <div class="card-top">
                     <div class="card-title-group">
                         <div class="card-icon">
                             <i class="fa-solid fa-user-ninja"></i>
                         </div>
                         <div>
-                            <h3>الهجوم واختبار الاختراق</h3>
+                            <h3 id="card2-title">الهجوم واختبار الاختراق</h3>
                             <span style="color: var(--red-glow); font-size: 12px; font-weight: bold;">RED TEAMING</span>
                         </div>
                     </div>
                     <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=150&auto=format&fit=crop&q=80" class="card-img-preview" alt="الهجوم">
                 </div>
                 <div class="card-body">
-                    <p>
+                    <p id="card2-desc">
                         محاكاة هجمات الواقع وتفحص البنية التحتية بنفس أساليب المهاجمين المحترفين لتحديد الثغرات الأمنية (Zero-Days) وإغلاقها قبل أن يستغلها الخصوم السيبرانيون.
                     </p>
                     <ul class="card-list">
@@ -588,21 +938,21 @@
             </div>
 
             <!-- قسم 3: الهندسة الاجتماعية واستخبارات التهديدات (OSINT) -->
-            <div class="cyber-card" style="--card-accent: var(--purple-glow);">
+            <div class="cyber-card" style="--card-accent: var(--purple-glow);" onmouseenter="playBeep()">
                 <div class="card-top">
                     <div class="card-title-group">
                         <div class="card-icon">
                             <i class="fa-solid fa-eye"></i>
                         </div>
                         <div>
-                            <h3>الاستخبارات والتعقب الرقمي</h3>
+                            <h3 id="card3-title">الاستخبارات والتعقب الرقمي</h3>
                             <span style="color: var(--purple-glow); font-size: 12px; font-weight: bold;">OSINT & THREAT INTEL</span>
                         </div>
                     </div>
                     <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=150&auto=format&fit=crop&q=80" class="card-img-preview" alt="الاستخبارات">
                 </div>
                 <div class="card-body">
-                    <p>
+                    <p id="card3-desc">
                         جمع البيانات وتتبع الأثر الرقمي من المصادر المفتوحة والدارك ويب (Dark Web) للتنبؤ بالهجمات المستقبلية وتحليل العنصر البشري الذي يُعد أضعف حلقة في الأمان.
                     </p>
                     <ul class="card-list">
@@ -614,21 +964,21 @@
             </div>
 
             <!-- قسم 4: الأدوات السحابية والأمن التكتيكي -->
-            <div class="cyber-card" style="--card-accent: var(--green-glow);">
+            <div class="cyber-card" style="--card-accent: var(--green-glow);" onmouseenter="playBeep()">
                 <div class="card-top">
                     <div class="card-title-group">
                         <div class="card-icon">
                             <i class="fa-solid fa-microchip"></i>
                         </div>
                         <div>
-                            <h3>الأدوات والأنظمة التكتيكية</h3>
+                            <h3 id="card4-title">الأدوات والأنظمة التكتيكية</h3>
                             <span style="color: var(--green-glow); font-size: 12px; font-weight: bold;">CYBER ARSENAL</span>
                         </div>
                     </div>
                     <img src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=150&auto=format&fit=crop&q=80" class="card-img-preview" alt="الأدوات">
                 </div>
                 <div class="card-body">
-                    <p>
+                    <p id="card4-desc">
                         ترسانة الأدوات المعتمدة عالمياً في اختبارات الأمان والتحليل الجنائي الرقمي (Digital Forensics)، المصممة خصيصاً للتعامل مع أضخم البيئات المعقدة.
                     </p>
                     <ul class="card-list">
@@ -641,6 +991,77 @@
 
         </div>
 
+        <!-- إضافة عالمية 1: محاكي التيرمينال الحقيقي (Interactive CTF Terminal) -->
+        <div class="terminal-console-section">
+            <div class="terminal-header">
+                <div class="term-dots">
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                </div>
+                <span style="color: #888; font-size: 12px;"><i class="fa-solid fa-terminal"></i> ABBAS-CYBER-TERMINAL v4.0</span>
+            </div>
+            <div class="term-body" id="termBody">
+                <div>> WELCOME TO ABBAS CYBER COMMAND CONSOLE.</div>
+                <div>> Type '<span style="color: var(--cyan-glow);">help</span>' to list available system commands.</div>
+            </div>
+            <div class="term-input-line">
+                <span style="color: var(--red-glow);">root@abbas-hq:~#</span>
+                <input type="text" class="term-input" id="termInput" placeholder="اكتب الأمر هنا..." onkeydown="handleTermCommand(event)">
+            </div>
+        </div>
+
+        <!-- إضافة عالمية 2: خريطة التهديدات الحية (Live Threat Map) -->
+        <div class="threat-map-section">
+            <h3 style="color: var(--cyan-glow);"><i class="fa-solid fa-earth-americas"></i> خريطة التهديدات والهجمات الحية (Cyber Threat Map)</h3>
+            <p style="color: var(--text-muted); font-size: 14px;">محاكاة لمراقبة حركة المرور والهجمات السيبرانية النشطة بين الخوادم العالمية:</p>
+            <div class="map-container" id="mapBox">
+                <div class="map-log" id="mapLog">LOG: Intercepting global traffic...</div>
+            </div>
+        </div>
+
+        <!-- إضافة عالمية 3: مركز أدوات التشفير والتوليد (Cyber Tools Hub) -->
+        <div class="cyber-hub-section">
+            <!-- أداة 1: مولد كلمات المرور -->
+            <div class="hub-card">
+                <h4><i class="fa-solid fa-key" style="color: var(--red-glow);"></i> مولد كلمات المرور الفائقة</h4>
+                <input type="text" id="passOutput" class="hub-input" readonly placeholder="اضغط توليد للإنشاء">
+                <button class="hub-btn" onclick="generatePass()"><i class="fa-solid fa-rotate"></i> توليد كلمة مرور معقدة</button>
+            </div>
+            <!-- أداة 2: مشفر ومفكك Base64 -->
+            <div class="hub-card">
+                <h4><i class="fa-solid fa-code" style="color: var(--cyan-glow);"></i> مشفر ومفكك النصوص (Base64)</h4>
+                <input type="text" id="base64Input" class="hub-input" placeholder="أدخل النص هنا...">
+                <div style="display: flex; gap: 10px;">
+                    <button class="hub-btn" style="background: var(--cyan-glow);" onclick="encodeBase64()">تشفير</button>
+                    <button class="hub-btn" style="background: var(--purple-glow); color: #fff;" onclick="decodeBase64()">فك التشفير</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- أداة فحص الثغرات التفاعلية -->
+        <div class="interactive-section">
+            <h3 style="color: var(--green-glow);"><i class="fa-solid fa-terminal"></i> أداة محاكاة فحص الثغرات التكتيكي</h3>
+            <p style="color: var(--text-muted); font-size: 14px;">أدخل أي رابط موقع أو اسم حساب لاختبار محاكاة الفحص بالأكواد البرمجية الحية:</p>
+            <div class="scanner-box">
+                <input type="text" id="scanTarget" class="scanner-input" placeholder="مثال: https://target-site.com أو @username">
+                <button class="scanner-btn" onclick="startScan()"><i class="fa-solid fa-bolt"></i> بدء الفحص التكتيكي</button>
+            </div>
+            <div id="scanConsole" class="scan-terminal"></div>
+        </div>
+
+        <!-- اختبار جودة الأمان -->
+        <div class="quiz-section">
+            <h3 style="color: var(--purple-glow);"><i class="fa-solid fa-shield-cat"></i> اختبار مستوى الأمان الرقمي لحسابك</h3>
+            <div id="quizContent">
+                <p style="color: #fff; margin-top: 10px;" id="quizQuestion">1. هل تستخدم نفس كلمة المرور لأكثر من حساب؟</p>
+                <div class="quiz-options">
+                    <button class="quiz-btn" onclick="answerQuiz(0)">نعم، أستخدم كلمة مرور واحدة تقريباً لكل شيء</button>
+                    <button class="quiz-btn" onclick="answerQuiz(1)">لا، أستخدم كلمات مرور مختلفة وميزة التحقق بخطوتين (2FA)</button>
+                </div>
+            </div>
+        </div>
+
         <!-- 3. ترسانة الأدوات التفاعلية -->
         <div class="tools-section">
             <div class="section-header" style="margin-bottom: 20px;">
@@ -648,22 +1069,22 @@
                 <p>أبرز الأدوات البرمجية الشائعة في المعارك السيبرانية</p>
             </div>
             <div class="tools-grid">
-                <div class="tool-box">
+                <div class="tool-box" onclick="playBeep()">
                     <i class="fa-solid fa-bug"></i>
                     <h4>Burp Suite</h4>
                     <span>فحص ثغرات الويب والتلاعب بالمطالبات</span>
                 </div>
-                <div class="tool-box">
+                <div class="tool-box" onclick="playBeep()">
                     <i class="fa-solid fa-network-wired"></i>
                     <h4>Nmap Scanner</h4>
                     <span>مسح المنافذ ورسم خرائط الشبكة</span>
                 </div>
-                <div class="tool-box">
+                <div class="tool-box" onclick="playBeep()">
                     <i class="fa-solid fa-skull"></i>
                     <h4>Metasploit</h4>
                     <span>تطوير وإطلاق الثغرات التكتيكية</span>
                 </div>
-                <div class="tool-box">
+                <div class="tool-box" onclick="playBeep()">
                     <i class="fa-solid fa-key"></i>
                     <h4>Wireshark</h4>
                     <span>تفكيك وحل حزم بيانات الشبكة</span>
@@ -673,12 +1094,15 @@
 
     </div>
 
-    <!-- أزرار التلغرام العائمة للوصول السريع -->
+    <!-- أزرار التلغرام والصوت العائمة -->
     <div class="telegram-float-group">
-        <a href="https://t.me/E44_l" target="_blank" class="float-btn float-personal" title="حساب عباس الشخصي">
+        <button class="float-btn float-sound" onclick="toggleSound()" title="تشغيل / كتم الأصوات">
+            <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+        </button>
+        <a href="https://t.me/E44_l" target="_blank" class="float-btn float-personal" title="حساب عباس الشخصي" onclick="playBeep()">
             <i class="fa-solid fa-user-astronaut"></i>
         </a>
-        <a href="https://t.me/D44_l" target="_blank" class="float-btn float-channel" title="قناة التلغرام الرسمية">
+        <a href="https://t.me/D44_l" target="_blank" class="float-btn float-channel" title="قناة التلغرام الرسمية" onclick="playBeep()">
             <i class="fa-paper-plane fa-brands"></i>
         </a>
     </div>
@@ -691,8 +1115,113 @@
         </p>
     </footer>
 
-    <!-- سكربت كتابة التيرمينال التلقائي -->
+    <!-- البرمجيات والتفاعلات السكربتية المتقدمة -->
     <script>
+        /* 1. نظام مبدل الثيمات (Theme Switcher) */
+        const themes = ['theme-red', 'theme-blue', 'theme-matrix'];
+        const themeNames = ['Red Team', 'Blue Team', 'Matrix Green'];
+        let currentThemeIdx = 0;
+
+        function cycleTheme() {
+            playBeep();
+            document.body.classList.remove(themes[currentThemeIdx]);
+            currentThemeIdx = (currentThemeIdx + 1) % themes.length;
+            if (themes[currentThemeIdx] !== 'theme-red') {
+                document.body.classList.add(themes[currentThemeIdx]);
+            }
+            document.getElementById('themeLabel').innerText = themeNames[currentThemeIdx];
+        }
+
+        /* 2. نظام تغيير اللغة (AR / EN Switcher) */
+        let currentLang = 'ar';
+        function toggleLanguage() {
+            playBeep();
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.getElementById('langLabel').innerText = currentLang === 'ar' ? 'English' : 'العربية';
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+
+            if (currentLang === 'en') {
+                document.getElementById('txt-owner').innerText = 'Owner: ABBAS';
+                document.getElementById('txt-title').innerText = 'ABBAS CYBER SECURITY PLATFORM';
+                document.getElementById('txt-btn-start').innerText = 'Welcome.. Click to Start';
+                document.getElementById('txt-btn-channel').innerText = 'Join Official Channel';
+                document.getElementById('txt-sec-title').innerText = 'Specialized Cyber Divisions';
+                document.getElementById('txt-sec-desc').innerText = 'A comprehensive ecosystem for digital defense and red-teaming';
+            } else {
+                document.getElementById('txt-owner').innerText = 'المالك: عباس | ABBAS';
+                document.getElementById('txt-title').innerText = 'منصة عباس للأمن السيبراني';
+                document.getElementById('txt-btn-start').innerText = 'أهلاً بعالمك.. اضغط ابدأ';
+                document.getElementById('txt-btn-channel').innerText = 'الانضمام للقناة الرسمية';
+                document.getElementById('txt-sec-title').innerText = 'الأقسام التخصصية للمنصة';
+                document.getElementById('txt-sec-desc').innerText = 'منظومة كاملة تغطي كافة مجالات الردع الرقمي والاختبارات التكتيكية';
+            }
+        }
+
+        /* 3. تأثير الماتريكس (Matrix Rain) */
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const rainDrops = Array.from({ length: columns }).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(5, 5, 8, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ff66';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = katakana.charAt(Math.floor(Math.random() * katakana.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 35);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        /* 4. الصوت التكتيكي */
+        let soundEnabled = true;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playBeep() {
+            if (!soundEnabled) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.1);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.1);
+            } catch(e) {}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('soundIcon');
+            if (soundEnabled) {
+                icon.className = 'fa-solid fa-volume-high';
+                playBeep();
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark';
+            }
+        }
+
+        /* 5. كتابة التيرمينال التلقائي */
         const words = [
             "جاري تشغيل بروتوكولات الحماية...",
             "مرحباً بك في المنصة السيبرانية الأولى...",
@@ -734,8 +1263,103 @@
             };
             loopDeleting();
         }
-
         typingEffect();
-    </script>
-</body>
-</html>
+
+        /* 6. محاكي الأوامر التفاعلي (Interactive Console) */
+        function handleTermCommand(e) {
+            if (e.key === 'Enter') {
+                playBeep();
+                const input = document.getElementById('termInput');
+                const cmd = input.value.trim().toLowerCase();
+                const body = document.getElementById('termBody');
+                
+                body.innerHTML += `<div><span style="color: var(--red-glow);">root@abbas-hq:~#</span> ${input.value}</div>`;
+                
+                if (cmd === 'help') {
+                    body.innerHTML += `<div style="color: var(--cyan-glow);">Available Commands:
+- <b style="color:#fff;">help</b>: Show command list
+- <b style="color:#fff;">scan</b>: Trigger quick security diagnostic
+- <b style="color:#fff;">owner</b>: Show platform owner details
+- <b style="color:#fff;">status</b>: Display server node health
+- <b style="color:#fff;">clear</b>: Clear console output</div>`;
+                } else if (cmd === 'owner') {
+                    body.innerHTML += `<div style="color: var(--purple-glow);">Platform Owner: Abbas | Telegram: @E44_l | Channel: @D44_l</div>`;
+                } else if (cmd === 'status') {
+                    body.innerHTML += `<div style="color: var(--green-glow);">[OK] Node-Baghdad: ACTIVE | [OK] Firewall: ENFORCED | Load: 12%</div>`;
+                } else if (cmd === 'scan') {
+                    body.innerHTML += `<div style="color: var(--yellow-glow);">[!] Running diagnostic... Systems secured by Abbas.</div>`;
+                } else if (cmd === 'clear') {
+                    body.innerHTML = `<div>> Console cleared.</div>`;
+                } else {
+                    body.innerHTML += `<div style="color: #ff3333;">Command not recognized: '${cmd}'. Type 'help' for options.</div>`;
+                }
+
+                input.value = '';
+                body.scrollTop = body.scrollHeight;
+            }
+        }
+
+        /* 7. محاكاة خريطة التهديدات السيبرانية */
+        function triggerMapAttack() {
+            const map = document.getElementById('mapBox');
+            const log = document.getElementById('mapLog');
+            const line = document.createElement('div');
+            line.className = 'attack-line';
+            
+            const startX = Math.random() * 80 + 10;
+            const startY = Math.random() * 70 + 15;
+            const width = Math.random() * 150 + 50;
+            const angle = Math.random() * 360;
+
+            line.style.left = startX + '%';
+            line.style.top = startY + '%';
+            line.style.width = width + 'px';
+            line.style.transform = `rotate(${angle}deg)`;
+
+            map.appendChild(line);
+            
+            const countries = ['USA', 'Iraq', 'Germany', 'Japan', 'Brazil', 'UK', 'China'];
+            const src = countries[Math.floor(Math.random() * countries.length)];
+            const dst = countries[Math.floor(Math.random() * countries.length)];
+            log.innerText = `[ATTACK INTERCEPTED] ${src} ➔ ${dst} | Port: ${Math.floor(Math.random()*8000+80)}`;
+
+            setTimeout(() => { line.remove(); }, 2000);
+        }
+        setInterval(triggerMapAttack, 1800);
+
+        /* 8. مولد كلمات المرور التكتيكي */
+        function generatePass() {
+            playBeep();
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
+            let pass = '';
+            for (let i = 0; i < 16; i++) {
+                pass += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('passOutput').value = pass;
+        }
+
+        /* 9. التشفير وفك التشفير Base64 */
+        function encodeBase64() {
+            playBeep();
+            const val = document.getElementById('base64Input').value;
+            try {
+                document.getElementById('base64Input').value = btoa(val);
+            } catch(e) {}
+        }
+        function decodeBase64() {
+            playBeep();
+            const val = document.getElementById('base64Input').value;
+            try {
+                document.getElementById('base64Input').value = atob(val);
+            } catch(e) {}
+        }
+
+        /* 10. محاكاة أداة فحص الثغرات */
+        function startScan() {
+            playBeep();
+            const target = document.getElementById('scanTarget').value.trim() || 'target-system.local';
+            const consoleBox = document.getElementById('scanConsole');
+            consoleBox.style.display = 'block';
+            consoleBox.innerHTML = `> Initiating scan sequence on [${target}]...<br>`;
+
+            const logs =
