@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>آياز</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         * {
             box-sizing: border-box;
@@ -31,7 +34,7 @@
             overflow: hidden;
             border-bottom-left-radius: 18px;
             border-bottom-right-radius: 18px;
-            background-color: #000;
+            background-color: #000000;
         }
 
         /* الفيديو الشغال بالخلفية */
@@ -39,6 +42,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
 
         /* طبقة الدمج السوداء المظلمة */
@@ -87,7 +91,7 @@
             z-index: 3;
         }
 
-        /* مربع الاسم باللون البيج المطابق تماماً */
+        /* مربع الاسم باللون البيج المطابق */
         .title-box {
             background-color: #d8d0c5;
             color: #0d0d0d;
@@ -101,7 +105,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* شارة متاح للتعاون باللون الذهبي الخردلي المطابق */
+        /* شارة متاح للتعاون باللون الذهبي الخردلي */
         .status-badge {
             background-color: #cb9b3c;
             color: #0a0a0a;
@@ -131,12 +135,12 @@
             font-weight: 400;
         }
 
-        /* أزرار الروابط بنفس التصميم والألوان والأبعاد 100% */
+        /* أزرار الروابط */
         .btn-card {
-            background: #121212;
-            border: 1px solid #222222;
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
             border-radius: 12px;
-            padding: 15px 18px;
+            padding: 12px 14px;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -147,41 +151,62 @@
         }
 
         .btn-card:hover {
-            border-color: #444444;
-            background: #1a1a1a;
+            border-color: #333333;
+            background: #141414;
         }
 
         .btn-info {
             text-align: right;
+            flex-grow: 1;
+            padding-right: 14px;
         }
 
         .btn-title {
             font-size: 15px;
-            font-weight: 700;
+            font-weight: 800;
             display: block;
             color: #ffffff;
         }
 
         .btn-sub {
             font-size: 12px;
-            color: #555555;
+            color: #666666;
             margin-top: 3px;
             direction: ltr;
             display: block;
             text-align: right;
         }
 
-        .btn-icon {
-            font-size: 16px;
-            color: #777777;
-            font-weight: bold;
+        /* المربع الأبيض/البيج المخصص للأيقونة باليمين */
+        .icon-box {
+            background: #d8d0c5;
+            color: #000000;
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        /* السهم على اليسار */
+        .btn-left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            color: #888888;
+            font-size: 14px;
         }
 
         /* التوقيع في أسفل الموقع */
         .footer-text {
             margin-top: 25px;
             font-size: 13px;
-            color: #666666;
+            color: #555555;
             letter-spacing: 1px;
             font-weight: 600;
         }
@@ -189,20 +214,17 @@
 </head>
 <body>
 
-    <!-- قسم فيديو الخلفية المظلمة -->
     <div class="hero-section">
         <div class="live-tag">
             <span class="live-dot"></span> LIVE
         </div>
         
         <video autoplay loop muted playsinline webkit-playsinline preload="auto">
-            <source src="https://v1.coverr.co/webm/5162235_Rain_Window_1280x720.webm" type="video/webm">
-            <source src="https://cdn.pixabay.com/video/2019/04/20/22908-331697223_large.mp4" type="video/mp4">
+            <source src="https://assets.mixkit.co/videos/34487/34487-720.mp4" type="video/mp4">
         </video>
         <div class="overlay"></div>
     </div>
 
-    <!-- المحتوى والروابط الخاصة بك -->
     <div class="content">
         <div class="title-box">آياز</div>
         <br>
@@ -216,35 +238,40 @@
         </p>
 
         <div class="btn-container">
-            <!-- حساب التلغرام الشخصي -->
             <a href="https://t.me/E44_l" class="btn-card" target="_blank">
-                <span class="btn-icon">↗</span>
+                <div class="btn-left">←</div>
                 <div class="btn-info">
                     <span class="btn-title">حسابي الشخصي تلغرام</span>
                     <span class="btn-sub">t.me/E44_l</span>
                 </div>
+                <div class="icon-box">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </div>
             </a>
 
-            <!-- قناة التلغرام المباشرة -->
             <a href="https://t.me/D44_l" class="btn-card" target="_blank">
-                <span class="btn-icon">↗</span>
+                <div class="btn-left">←</div>
                 <div class="btn-info">
                     <span class="btn-title">قناتي على التلغرام</span>
                     <span class="btn-sub">t.me/D44_l</span>
                 </div>
+                <div class="icon-box">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </div>
             </a>
 
-            <!-- حساب الإنستغرام المباشر -->
             <a href="https://instagram.com/b9__5" class="btn-card" target="_blank">
-                <span class="btn-icon">↗</span>
+                <div class="btn-left">←</div>
                 <div class="btn-info">
                     <span class="btn-title">حسابي الإنستغرام</span>
                     <span class="btn-sub">instagram.com/b9__5</span>
                 </div>
+                <div class="icon-box">
+                    <i class="fa-brands fa-instagram"></i>
+                </div>
             </a>
         </div>
 
-        <!-- عبارة الأسفل -->
         <div class="footer-text">آياز 2026</div>
     </div>
 
