@@ -1122,7 +1122,40 @@
 
     <!-- البرمجيات والتفاعلات السكربتية المحدثة بالكامل -->
     <script>
-        /* 1. نظام مبدل الثيمات (Theme Switcher) */
+        /* 1. نظام المؤثرات الصوتية الصوتية */
+        let soundEnabled = true;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playBeep(freq = 800, type = 'sine', duration = 0.05) {
+            if (!soundEnabled) return;
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e){}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const soundIcon = document.getElementById('soundIcon');
+            if(soundEnabled) {
+                soundIcon.className = 'fa-solid fa-volume-high';
+                playBeep(1200, 'triangle', 0.1);
+            } else {
+                soundIcon.className = 'fa-solid fa-volume-xmark';
+            }
+        }
+
+        /* 2. نظام مبدل الثيمات (Theme Switcher) */
         const themes = ['theme-red', 'theme-blue', 'theme-matrix'];
         const themeNames = ['Red Team', 'Blue Team', 'Matrix Green'];
         let currentThemeIdx = 0;
@@ -1137,7 +1170,7 @@
             document.getElementById('themeLabel').innerText = themeNames[currentThemeIdx];
         }
 
-        /* 2. نظام تغيير اللغة الشامل والدقيق (AR / EN Switcher) */
+        /* 3. نظام تغيير اللغة الشامل والدقيق (AR / EN Switcher) */
         let currentLang = 'ar';
 
         const langData = {
@@ -1260,415 +1293,4 @@
                 scanDesc: "Enter any domain or username to run an interactive live security assessment simulation:",
                 scanPlaceholder: "e.g., https://target-site.com or @username",
                 btnScan: "<i class='fa-solid fa-bolt'></i> Run Tactical Scan",
-                quizTitle: "<i class='fa-solid fa-shield-cat'></i> Account Security Diagnostic Quiz",
-                arsenalTitle: "Abbas Platform Cyber Arsenal",
-                arsenalDesc: "Top software tools widely deployed in cyber warfare",
-                footerRights: "All Rights Reserved © 2026 | Developed by <strong>Abbas Cyber Security</strong>",
-                footerContact: "Direct Contact:",
-                footerChan: "Official Channel:"
-            }
-        };
-
-        function toggleLanguage() {
-            playBeep();
-            currentLang = (currentLang === 'ar') ? 'en' : 'ar';
-            document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
-            document.documentElement.lang = currentLang;
-
-            const d = langData[currentLang];
-
-            document.getElementById('brand-tag').innerText = d.brandTag;
-            document.getElementById('langLabel').innerText = d.langLabel;
-            document.getElementById('txt-owner').innerText = d.owner;
-            document.getElementById('txt-title').innerText = d.title;
-            document.getElementById('txt-btn-start').innerText = d.btnStart;
-            document.getElementById('txt-btn-channel').innerText = d.btnChannel;
-            document.getElementById('txt-sec-title').innerText = d.secTitle;
-            document.getElementById('txt-sec-desc').innerText = d.secDesc;
-
-            // تحديث الكروت 1-4
-            document.getElementById('card1-title').innerText = d.card1Title;
-            document.getElementById('card1-desc').innerText = d.card1Desc;
-            updateList('card1-list', d.card1List);
-
-            document.getElementById('card2-title').innerText = d.card2Title;
-            document.getElementById('card2-desc').innerText = d.card2Desc;
-            updateList('card2-list', d.card2List);
-
-            document.getElementById('card3-title').innerText = d.card3Title;
-            document.getElementById('card3-desc').innerText = d.card3Desc;
-            updateList('card3-list', d.card3List);
-
-            document.getElementById('card4-title').innerText = d.card4Title;
-            document.getElementById('card4-desc').innerText = d.card4Desc;
-            updateList('card4-list', d.card4List);
-
-            // أدوات
-            document.getElementById('txt-map-title').innerHTML = d.mapTitle;
-            document.getElementById('txt-map-desc').innerText = d.mapDesc;
-
-            document.getElementById('txt-pass-title').innerHTML = d.passTitle;
-            document.getElementById('btn-gen-pass').innerHTML = d.btnGenPass;
-            document.getElementById('passOutput').placeholder = d.passPlaceholder;
-
-            document.getElementById('txt-base64-title').innerHTML = d.base64Title;
-            document.getElementById('base64Input').placeholder = d.base64Placeholder;
-            document.getElementById('btn-enc').innerText = d.btnEnc;
-            document.getElementById('btn-dec').innerText = d.btnDec;
-
-            document.getElementById('txt-scan-title').innerHTML = d.scanTitle;
-            document.getElementById('txt-scan-desc').innerText = d.scanDesc;
-            document.getElementById('scanTarget').placeholder = d.scanPlaceholder;
-            document.getElementById('btn-scan').innerHTML = d.btnScan;
-
-            document.getElementById('txt-quiz-title').innerHTML = d.quizTitle;
-            document.getElementById('txt-arsenal-title').innerText = d.arsenalTitle;
-            document.getElementById('txt-arsenal-desc').innerText = d.arsenalDesc;
-
-            document.getElementById('txt-footer-rights').innerHTML = d.footerRights;
-            document.getElementById('txt-footer-contact').innerText = d.footerContact;
-            document.getElementById('txt-footer-chan').innerText = d.footerChan;
-
-            // إعادة تنشيط نص الاختبار باللغة الجديدة
-            renderQuiz();
-        }
-
-        function updateList(elementId, items) {
-            const listElem = document.getElementById(elementId);
-            listElem.innerHTML = '';
-            items.forEach(item => {
-                const li = document.createElement('li');
-                li.innerHTML = item;
-                listElem.appendChild(li);
-            });
-        }
-
-        /* 3. تأثير الماتريكس (Matrix Rain) */
-        const canvas = document.getElementById('matrix-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const rainDrops = Array.from({ length: columns }).fill(1);
-
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(5, 5, 8, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00ff66';
-            ctx.font = fontSize + 'px monospace';
-
-            for (let i = 0; i < rainDrops.length; i++) {
-                const text = katakana.charAt(Math.floor(Math.random() * katakana.length));
-                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    rainDrops[i] = 0;
-                }
-                rainDrops[i]++;
-            }
-        }
-        setInterval(drawMatrix, 35);
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        /* 4. الصوت التكتيكي */
-        let soundEnabled = true;
-        let audioCtx;
-
-        function playBeep() {
-            if (!soundEnabled) return;
-            try {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.1);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.1);
-            } catch(e) {}
-        }
-
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            const icon = document.getElementById('soundIcon');
-            if (soundEnabled) {
-                icon.className = 'fa-solid fa-volume-high';
-                playBeep();
-            } else {
-                icon.className = 'fa-solid fa-volume-xmark';
-            }
-        }
-
-        /* 5. كتابة التيرمينال التلقائي */
-        const words = [
-            "جاري تشغيل بروتوكولات الحماية...",
-            "مرحباً بك في المنصة السيبرانية الأولى...",
-            "المالك: عباس (@E44_l) - Iraqi Cyber Command"
-        ];
-        let wordIdx = 0;
-        let timer;
-
-        function typingEffect() {
-            let word = words[wordIdx].split("");
-            var loopTyping = function() {
-                if (word.length > 0) {
-                    document.getElementById('typing-text').innerHTML += word.shift();
-                } else {
-                    setTimeout(deletingEffect, 2000);
-                    return false;
-                }
-                timer = setTimeout(loopTyping, 80);
-            };
-            loopTyping();
-        }
-
-        function deletingEffect() {
-            let word = words[wordIdx].split("");
-            var loopDeleting = function() {
-                if (word.length > 0) {
-                    word.pop();
-                    document.getElementById('typing-text').innerHTML = word.join("");
-                } else {
-                    if (words.length > (wordIdx + 1)) {
-                        wordIdx++;
-                    } else {
-                        wordIdx = 0;
-                    }
-                    setTimeout(typingEffect, 500);
-                    return false;
-                }
-                timer = setTimeout(loopDeleting, 40);
-            };
-            loopDeleting();
-        }
-        typingEffect();
-
-        /* 6. محاكي الأوامر التفاعلي (Interactive Console) */
-        function handleTermCommand(e) {
-            if (e.key === 'Enter') {
-                playBeep();
-                const input = document.getElementById('termInput');
-                const cmd = input.value.trim().toLowerCase();
-                const body = document.getElementById('termBody');
-                
-                body.innerHTML += `<div><span style="color: var(--red-glow);">root@abbas-hq:~#</span> ${input.value}</div>`;
-                
-                if (cmd === 'help') {
-                    body.innerHTML += `<div style="color: var(--cyan-glow);">Available Commands:
-- <b style="color:#fff;">help</b>: Show command list
-- <b style="color:#fff;">scan</b>: Trigger quick security diagnostic
-- <b style="color:#fff;">owner</b>: Show platform owner details
-- <b style="color:#fff;">status</b>: Display server node health
-- <b style="color:#fff;">clear</b>: Clear console output</div>`;
-                } else if (cmd === 'owner') {
-                    body.innerHTML += `<div style="color: var(--purple-glow);">Platform Owner: Abbas | Telegram: @E44_l | Channel: @D44_l</div>`;
-                } else if (cmd === 'status') {
-                    body.innerHTML += `<div style="color: var(--green-glow);">[OK] Node-Baghdad: ACTIVE | [OK] Firewall: ENFORCED | Load: 12%</div>`;
-                } else if (cmd === 'scan') {
-                    body.innerHTML += `<div style="color: #ffbd2e;">[!] Running diagnostic... Systems secured by Abbas.</div>`;
-                } else if (cmd === 'clear') {
-                    body.innerHTML = `<div>> Console cleared.</div>`;
-                } else {
-                    body.innerHTML += `<div style="color: #ff3333;">Command not recognized: '${cmd}'. Type 'help' for options.</div>`;
-                }
-
-                input.value = '';
-                body.scrollTop = body.scrollHeight;
-            }
-        }
-
-        /* 7. محاكاة خريطة التهديدات السيبرانية */
-        function triggerMapAttack() {
-            const map = document.getElementById('mapBox');
-            const log = document.getElementById('mapLog');
-            if(!map) return;
-            
-            const line = document.createElement('div');
-            line.className = 'attack-line';
-            
-            const startX = Math.random() * 80 + 10;
-            const startY = Math.random() * 70 + 15;
-            const width = Math.random() * 150 + 50;
-            const angle = Math.random() * 360;
-
-            line.style.left = startX + '%';
-            line.style.top = startY + '%';
-            line.style.width = width + 'px';
-            line.style.transform = `rotate(${angle}deg)`;
-
-            map.appendChild(line);
-            
-            const countries = ['USA', 'Iraq', 'Germany', 'Japan', 'Brazil', 'UK', 'China'];
-            const src = countries[Math.floor(Math.random() * countries.length)];
-            const dst = countries[Math.floor(Math.random() * countries.length)];
-            log.innerText = `[ATTACK INTERCEPTED] ${src} ➔ ${dst} | Port: ${Math.floor(Math.random()*8000+80)}`;
-
-            setTimeout(() => { line.remove(); }, 2000);
-        }
-        setInterval(triggerMapAttack, 1800);
-
-        /* 8. مولد كلمات المرور التكتيكي */
-        function generatePass() {
-            playBeep();
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
-            let pass = '';
-            for (let i = 0; i < 16; i++) {
-                pass += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            document.getElementById('passOutput').value = pass;
-        }
-
-        /* 9. التشفير وفك التشفير Base64 */
-        function encodeBase64() {
-            playBeep();
-            const val = document.getElementById('base64Input').value;
-            if(!val) return;
-            try {
-                document.getElementById('base64Input').value = btoa(val);
-            } catch(e) {
-                alert(currentLang === 'ar' ? 'حدث خطأ في النص' : 'Error encoding text');
-            }
-        }
-        function decodeBase64() {
-            playBeep();
-            const val = document.getElementById('base64Input').value;
-            if(!val) return;
-            try {
-                document.getElementById('base64Input').value = atob(val);
-            } catch(e) {
-                alert(currentLang === 'ar' ? 'النص غير صالح لفك التشفير' : 'Invalid Base64 string');
-            }
-        }
-
-        /* 10. محاكاة أداة فحص الثغرات */
-        function startScan() {
-            playBeep();
-            const target = document.getElementById('scanTarget').value.trim() || 'target-system.local';
-            const consoleBox = document.getElementById('scanConsole');
-            consoleBox.style.display = 'block';
-            consoleBox.innerHTML = `> Initiating scan sequence on [${target}]...<br>`;
-
-            const logs = [
-                `> Resolving hostname and IP routing...`,
-                `> Scanning open ports [21, 22, 80, 443, 8080]...`,
-                `> Checking SSL/TLS Certificates... VALID`,
-                `> Testing SQL Injection & XSS vulnerability parameters...`,
-                `> Checking headers protection (CSP, HSTS, X-Frame)...`,
-                `> [RESULT] Scan completed for ${target}. Status: Analyzed by Abbas Platform.`
-            ];
-
-            let logIndex = 0;
-            const interval = setInterval(() => {
-                if (logIndex < logs.length) {
-                    consoleBox.innerHTML += logs[logIndex] + '<br>';
-                    consoleBox.scrollTop = consoleBox.scrollHeight;
-                    playBeep();
-                    logIndex++;
-                } else {
-                    clearInterval(interval);
-                }
-            }, 500);
-        }
-
-        /* 11. اختبار أمان الحساب التفاعلي الذكي والمعالج */
-        let quizStep = 0;
-        let score = 0;
-
-        const quizQuestions = {
-            ar: [
-                {
-                    q: "1. هل تستخدم نفس كلمة المرور لأكثر من حساب من حساباتك؟",
-                    opts: [
-                        { text: "نعم، أستخدم نفس كلمة المرور تقريباً لكل شيء", score: 0 },
-                        { text: "لا، أستخدم كلمات مرور معقدة ومختلفة لكل حساب", score: 50 }
-                    ]
-                },
-                {
-                    q: "2. هل تقوم بتفعيل ميزة التحقق بخطوتين (2FA) في حساباتك؟",
-                    opts: [
-                        { text: "لا، لم أقم بتفعيلها بعد", score: 0 },
-                        { text: "نعم، مفعلة على كل حساباتي الأساسية", score: 50 }
-                    ]
-                }
-            ],
-            en: [
-                {
-                    q: "1. Do you use the same password for multiple accounts?",
-                    opts: [
-                        { text: "Yes, I use almost the same password everywhere", score: 0 },
-                        { text: "No, I use unique & strong passwords for each account", score: 50 }
-                    ]
-                },
-                {
-                    q: "2. Do you enable Two-Factor Authentication (2FA)?",
-                    opts: [
-                        { text: "No, I haven't enabled it yet", score: 0 },
-                        { text: "Yes, it is enabled on all key accounts", score: 50 }
-                    ]
-                }
-            ]
-        };
-
-        function renderQuiz() {
-            const container = document.getElementById('quizContainer');
-            const qList = quizQuestions[currentLang];
-
-            if (quizStep >= qList.length) {
-                // شاشة النتيجة النهائية
-                let color = score >= 100 ? 'var(--green-glow)' : (score >= 50 ? '#ffbd2e' : 'var(--red-glow)');
-                let statusMsg = score >= 100 
-                    ? (currentLang === 'ar' ? "مستوى أمان ممتااااز! حسابك محمي بوعي عالٍ." : "Excellent Security Level! Highly Protected.")
-                    : (currentLang === 'ar' ? "تحذير: حساباتك معرضة للاختراق بسهولة!" : "Warning: Your account is vulnerable to breach!");
-
-                container.innerHTML = `
-                    <div style="text-align: center; margin-top: 15px;">
-                        <i class="fa-solid fa-shield-halved" style="font-size: 50px; color: ${color}; margin-bottom: 10px;"></i>
-                        <h4 style="color: ${color}; font-size: 1.5rem; margin-bottom: 10px;">
-                            ${currentLang === 'ar' ? 'نتيجة تقييم الأمان:' : 'Security Diagnostic Result:'} ${score}%
-                        </h4>
-                        <p style="color: #fff; font-size: 15px; margin-bottom: 15px;">${statusMsg}</p>
-                        <button class="quiz-btn" style="text-align:center; background: var(--purple-glow); border:none;" onclick="resetQuiz()">
-                            ${currentLang === 'ar' ? 'إعادة الاختبار' : 'Retake Quiz'}
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-
-            const currentQ = qList[quizStep];
-            let html = `<p style="color: #fff; margin-top: 10px; font-weight: bold; font-size: 1.1rem;">${currentQ.q}</p>`;
-            html += `<div class="quiz-options">`;
-            currentQ.opts.forEach((opt) => {
-                html += `<button class="quiz-btn" onclick="handleQuizAnswer(${opt.score})">${opt.text}</button>`;
-            });
-            html += `</div>`;
-            container.innerHTML = html;
-        }
-
-        function handleQuizAnswer(points) {
-            playBeep();
-            score += points;
-            quizStep++;
-            renderQuiz();
-        }
-
-        function resetQuiz() {
-            playBeep();
-            quizStep = 0;
-            score = 0;
-            renderQuiz();
-        }
-
-        // تشغيل الاختبار لأول مرة
-        renderQuiz();
-    </script>
-</body>
+                quizTitle: "<i class='fa-solid fa-shield-cat'></i> Account Security Dia
