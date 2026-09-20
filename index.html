@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آياز</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        /* قسم الفيديو العلوي */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            max-width: 440px;
+            height: 250px;
+            overflow: hidden;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+        }
+
+        /* الفيديو الشغال بالخلفية */
+        .hero-section video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* طبقة الدمج السوداء المظلمة */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.98) 100%);
+        }
+
+        /* شارة LIVE بالزاوية */
+        .live-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(15, 15, 15, 0.85);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 2;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            background-color: #ff3b30;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ff3b30;
+        }
+
+        /* المحتوى والروابط */
+        .content {
+            width: 100%;
+            max-width: 420px;
+            padding: 0 20px;
+            text-align: center;
+            margin-top: -35px;
+            z-index: 3;
+        }
+
+        /* مربع الاسم باللون البيج المطابق تماماً */
+        .title-box {
+            background-color: #d8d0c5;
+            color: #0d0d0d;
+            padding: 8px 32px;
+            border-radius: 12px;
+            display: inline-block;
+            font-size: 27px;
+            font-weight: 900;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        /* شارة متاح للتعاون باللون الذهبي الخردلي المطابق */
+        .status-badge {
+            background-color: #cb9b3c;
+            color: #0a0a0a;
+            padding: 5px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #0a0a0a;
+            border-radius: 50%;
+        }
+
+        /* الوصف والنص */
+        .description {
+            color: #a5a5a5;
+            font-size: 14.5px;
+            line-height: 1.7;
+            margin-bottom: 26px;
+            font-weight: 400;
+        }
+
+        /* أزرار الروابط بنفس التصميم والألوان والأبعاد 100% */
+        .btn-card {
+            background: #121212;
+            border: 1px solid #222222;
+            border-radius: 12px;
+            padding: 15px 18px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        .btn-card:hover {
+            border-color: #444444;
+            background: #1a1a1a;
+        }
+
+        .btn-info {
+            text-align: right;
+        }
+
+        .btn-title {
+            font-size: 15px;
+            font-weight: 700;
+            display: block;
+            color: #ffffff;
+        }
+
+        .btn-sub {
+            font-size: 12px;
+            color: #555555;
+            margin-top: 3px;
+            direction: ltr;
+            display: block;
+            text-align: right;
+        }
+
+        .btn-icon {
+            font-size: 16px;
+            color: #777777;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- قسم فيديو الخلفية المظلمة -->
+    <div class="hero-section">
+        <div class="live-tag">
+            <span class="live-dot"></span> LIVE
+        </div>
+        
+        <video autoplay loop muted playsinline>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-anime-character-under-falling-leaves-40118-large.mp4" type="video/mp4">
+        </video>
+        <div class="overlay"></div>
+    </div>
+
+    <!-- المحتوى والروابط الخاصة بك -->
+    <div class="content">
+        <div class="title-box">آياز</div>
+        <br>
+        <div class="status-badge">
+            <span class="status-dot"></span> متاح للتعاون
+        </div>
+
+        <p class="description">
+            نحن لا ننتظر الفرص بل نصنع قواعدها بأنفسنا؛<br>
+            ومن اعتاد القمة، لا تشغله خطوات العابرين في الأسفل.
+        </p>
+
+        <div class="btn-container">
+            <!-- حساب التلغرام الشخصي -->
+            <a href="https://t.me/E44_l" class="btn-card" target="_blank">
+                <span class="btn-icon">↗</span>
+                <div class="btn-info">
+                    <span class="btn-title">حسابي الشخصي تلغرام</span>
+                    <span class="btn-sub">t.me/E44_l</span>
+                </div>
+            </a>
+
+            <!-- قناة التلغرام المباشرة -->
+            <a href="https://t.me/D44_l" class="btn-card" target="_blank">
+                <span class="btn-icon">↗</span>
+                <div class="btn-info">
+                    <span class="btn-title">قناتي على التلغرام</span>
+                    <span class="btn-sub">t.me/D44_l</span>
+                </div>
+            </a>
+
+            <!-- حساب الإنستغرام المباشر -->
+            <a href="https://instagram.com/b9__5" class="btn-card" target="_blank">
+                <span class="btn-icon">↗</span>
+                <div class="btn-info">
+                    <span class="btn-title">حسابي الإنستغرام</span>
+                    <span class="btn-sub">instagram.com/b9__5</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
