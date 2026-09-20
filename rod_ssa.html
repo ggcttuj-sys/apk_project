@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -1122,40 +1122,7 @@
 
     <!-- البرمجيات والتفاعلات السكربتية المحدثة بالكامل -->
     <script>
-        /* 1. نظام المؤثرات الصوتية الصوتية */
-        let soundEnabled = true;
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-        function playBeep(freq = 800, type = 'sine', duration = 0.05) {
-            if (!soundEnabled) return;
-            try {
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + duration);
-            } catch(e){}
-        }
-
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            const soundIcon = document.getElementById('soundIcon');
-            if(soundEnabled) {
-                soundIcon.className = 'fa-solid fa-volume-high';
-                playBeep(1200, 'triangle', 0.1);
-            } else {
-                soundIcon.className = 'fa-solid fa-volume-xmark';
-            }
-        }
-
-        /* 2. نظام مبدل الثيمات (Theme Switcher) */
+        /* 1. نظام مبدل الثيمات (Theme Switcher) */
         const themes = ['theme-red', 'theme-blue', 'theme-matrix'];
         const themeNames = ['Red Team', 'Blue Team', 'Matrix Green'];
         let currentThemeIdx = 0;
@@ -1170,7 +1137,7 @@
             document.getElementById('themeLabel').innerText = themeNames[currentThemeIdx];
         }
 
-        /* 3. نظام تغيير اللغة الشامل والدقيق (AR / EN Switcher) */
+        /* 2. نظام تغيير اللغة الشامل والدقيق (AR / EN Switcher) */
         let currentLang = 'ar';
 
         const langData = {
@@ -1293,4 +1260,28 @@
                 scanDesc: "Enter any domain or username to run an interactive live security assessment simulation:",
                 scanPlaceholder: "e.g., https://target-site.com or @username",
                 btnScan: "<i class='fa-solid fa-bolt'></i> Run Tactical Scan",
-                quizTitle: "<i class='fa-solid fa-shield-cat'></i> Account Security Dia
+                quizTitle: "<i class='fa-solid fa-shield-cat'></i> Account Security Diagnostic Quiz",
+                arsenalTitle: "Abbas Platform Cyber Arsenal",
+                arsenalDesc: "Top software tools widely deployed in cyber warfare",
+                footerRights: "All Rights Reserved © 2026 | Developed by <strong>Abbas Cyber Security</strong>",
+                footerContact: "Direct Contact:",
+                footerChan: "Official Channel:"
+            }
+        };
+
+        function toggleLanguage() {
+            playBeep();
+            currentLang = (currentLang === 'ar') ? 'en' : 'ar';
+            document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
+            document.documentElement.lang = currentLang;
+
+            const d = langData[currentLang];
+
+            document.getElementById('brand-tag').innerText = d.brandTag;
+            document.getElementById('langLabel').innerText = d.langLabel;
+            document.getElementById('txt-owner').innerText = d.owner;
+            document.getElementById('txt-title').innerText = d.title;
+            document.getElementById('txt-btn-start').innerText = d.btnStart;
+            document.getElementById('txt-btn-channel').innerText = d.btnChannel;
+            document.getElementById('txt-sec-title').innerText = d.secTitle;
+            document.getElementById('txt-sec-de
